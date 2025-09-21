@@ -1,0 +1,366 @@
+<!-- Rooms Filter Page -->
+<div class="rooms-filter-page"
+     [class.rtl-layout]="isRTL"
+     [class.ltr-layout]="isLTR"
+     [attr.dir]="isRTL ? 'rtl' : 'ltr'">
+
+  <!-- Page Header with Search Box -->
+  <div class="search-header-section">
+    <mat-card class="search-header-card" [class.rtl-card]="isRTL">
+      <mat-card-content>
+        <!-- Page Title -->
+        <div class="page-title-section">
+          <div class="title-with-filter-toggle">
+            <h1 class="page-title">
+              <mat-icon>hotel_class</mat-icon>
+              {{ 'search.roomConfiguration' | translate }}
+            </h1>
+            <!-- Mobile Filter Toggle -->
+            <button mat-icon-button
+                    class="filter-toggle-btn"
+                    *ngIf="isMobile"
+                    (click)="toggleSidebar()"
+                    [attr.aria-label]="'filters.toggleFilters' | translate">
+              <mat-icon>tune</mat-icon>
+              <span class="filter-count-badge" *ngIf="getActiveFiltersCount() > 0">
+                {{ getActiveFiltersCount() }}
+              </span>
+            </button>
+          </div>
+          <p class="page-subtitle" *ngIf="searchData">
+            {{ 'search.locationPlaceholder' | translate }}: {{ searchData.splCode }}
+          </p>
+        </div>
+
+        <mat-divider></mat-divider>
+
+        <!-- Search Box Component -->
+        <div class="search-box-container">
+          <app-search-box
+            [searchData]="searchData"
+            (searchFormSubmit)="onSearchSubmit($event)">
+          </app-search-box>
+        </div>
+
+        <!-- Search Summary (if search has been performed) -->
+        <div class="search-summary" *ngIf="searchData && !isLoading">
+          <div class="summary-item">
+            <mat-icon>location_on</mat-icon>
+            <span class="summary-text">{{ searchData.splCode }}</span>
+          </div>
+
+          <div class="summary-item">
+            <mat-icon>date_range</mat-icon>
+            <span class="summary-text">{{ getDateRangeSummary() }}</span>
+          </div>
+
+          <div class="summary-item">
+            <mat-icon>people</mat-icon>
+            <span class="summary-text">{{ getSearchSummary() }}</span>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <!-- Main Content with Sidebar -->
+  <div class="main-content-section">
+    <mat-sidenav-container class="sidenav-container" [class.mobile-container]="isMobile">
+
+      <!-- Filter Sidebar -->
+      <mat-sidenav
+        #filterSidenav
+        [mode]="isMobile ? 'over' : 'side'"
+        [opened]="isSidebarOpen"
+        [fixedInViewport]="isMobile"
+        [fixedTopGap]="isMobile ? 0 : 0"
+        class="filter-sidebar"
+        [class.rtl-sidebar]="isRTL">
+
+        <!-- Sidebar Header -->
+        <div class="sidebar-header">
+          <div class="sidebar-title">
+            <mat-icon>tune</mat-icon>
+            <h3>{{ 'filters.title' | translate }}</h3>
+          </div>
+          <div class="sidebar-actions">
+            <button mat-button
+                    class="clear-all-btn"
+                    *ngIf="getActiveFiltersCount() > 0"
+                    (click)="clearAllFilters()">
+              {{ 'filters.clearAll' | translate }}
+            </button>
+            <button mat-icon-button
+                    *ngIf="isMobile"
+                    (click)="toggleSidebar()"
+                    [attr.aria-label]="'filters.close' | translate">
+              <mat-icon>close</mat-icon>
+            </button>
+          </div>
+        </div>
+
+        <mat-divider></mat-divider>
+
+        <!-- Filter Content -->
+        <div class="sidebar-content">
+
+          <!-- Price Range Filter -->
+          <mat-expansion-panel class="filter-panel" [expanded]="true">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <mat-icon>attach_money</mat-icon>
+                {{ 'filters.priceRange' | translate }}
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <div class="price-range-content">
+              <div class="price-display">
+                <span class="price-value">${{ selectedPriceMin }}</span>
+                <span class="price-separator">-</span>
+                <span class="price-value">${{ selectedPriceMax }}</span>
+              </div>
+
+              <div class="price-sliders">
+                <mat-slider class="price-slider" [min]="priceMin" [max]="priceMax" [step]="10">
+                  <input matSliderStartThumb [(ngModel)]="selectedPriceMin" (ngModelChange)="onPriceRangeChange()">
+                  <input matSliderEndThumb [(ngModel)]="selectedPriceMax" (ngModelChange)="onPriceRangeChange()">
+                </mat-slider>
+              </div>
+            </div>
+          </mat-expansion-panel>
+
+          <!-- Property Types Filter -->
+          <mat-expansion-panel class="filter-panel" [expanded]="true">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <mat-icon>business</mat-icon>
+                {{ 'filters.propertyType' | translate }}
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <div class="filter-options">
+              <mat-checkbox
+                *ngFor="let option of filters.propertyTypes"
+                [checked]="option.checked"
+                (change)="onFilterOptionChange('propertyTypes', option.id)"
+                class="filter-checkbox">
+                <span class="option-label">{{ option.label | translate }}</span>
+                <span class="option-count" *ngIf="option.count">({{ option.count }})</span>
+              </mat-checkbox>
+            </div>
+          </mat-expansion-panel>
+
+          <!-- Popular Filters -->
+          <mat-expansion-panel class="filter-panel" [expanded]="true">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <mat-icon>star</mat-icon>
+                {{ 'filters.popular' | translate }}
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <div class="filter-options">
+              <mat-checkbox
+                *ngFor="let option of filters.popularFilters"
+                [checked]="option.checked"
+                (change)="onFilterOptionChange('popularFilters', option.id)"
+                class="filter-checkbox">
+                <span class="option-label">{{ option.label | translate }}</span>
+                <span class="option-count" *ngIf="option.count">({{ option.count }})</span>
+              </mat-checkbox>
+            </div>
+          </mat-expansion-panel>
+
+          <!-- Available Hotels Only -->
+          <mat-expansion-panel class="filter-panel" [expanded]="true">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <mat-icon>check_circle</mat-icon>
+                {{ 'filters.availability' | translate }}
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <div class="filter-options">
+              <mat-checkbox
+                [checked]="filters.availableHotels"
+                (change)="onAvailableHotelsChange()"
+                class="filter-checkbox">
+                <span class="option-label">{{ 'filters.availableOnly' | translate }}</span>
+              </mat-checkbox>
+            </div>
+          </mat-expansion-panel>
+
+          <!-- Star Rating Filter -->
+          <mat-expansion-panel class="filter-panel">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <mat-icon>star_rate</mat-icon>
+                {{ 'filters.starRating' | translate }}
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <div class="filter-options star-rating-options">
+              <mat-checkbox
+                *ngFor="let option of filters.starRatings"
+                [checked]="option.checked"
+                (change)="onFilterOptionChange('starRatings', option.id)"
+                class="filter-checkbox star-checkbox">
+                <div class="star-rating-display">
+                  <span class="stars">
+                    <mat-icon *ngFor="let star of [].constructor(+option.label)" class="star-icon">star</mat-icon>
+                  </span>
+                  <span class="option-count" *ngIf="option.count">({{ option.count }})</span>
+                </div>
+              </mat-checkbox>
+            </div>
+          </mat-expansion-panel>
+
+          <!-- Guest Rating Filter -->
+          <mat-expansion-panel class="filter-panel">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <mat-icon>thumb_up</mat-icon>
+                {{ 'filters.guestRating.title' | translate }}
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <div class="filter-options">
+              <mat-checkbox
+                *ngFor="let option of filters.guestRatings"
+                [checked]="option.checked"
+                (change)="onFilterOptionChange('guestRatings', option.id)"
+                class="filter-checkbox">
+                <span class="option-label">{{ option.label | translate }}</span>
+                <span class="option-count" *ngIf="option.count">({{ option.count }})</span>
+              </mat-checkbox>
+            </div>
+          </mat-expansion-panel>
+
+          <!-- Districts Filter -->
+          <mat-expansion-panel class="filter-panel">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <mat-icon>place</mat-icon>
+                {{ 'filters.districts.title' | translate }}
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <div class="filter-options">
+              <mat-checkbox
+                *ngFor="let option of filters.districts"
+                [checked]="option.checked"
+                (change)="onFilterOptionChange('districts', option.id)"
+                class="filter-checkbox">
+                <span class="option-label">{{ option.label | translate }}</span>
+                <span class="option-count" *ngIf="option.count">({{ option.count }})</span>
+              </mat-checkbox>
+            </div>
+          </mat-expansion-panel>
+
+          <!-- Amenities Filter -->
+          <mat-expansion-panel class="filter-panel">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <mat-icon>local_amenities</mat-icon>
+                {{ 'filters.amenities.title' | translate }}
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <div class="filter-options">
+              <mat-checkbox
+                *ngFor="let option of filters.amenities"
+                [checked]="option.checked"
+                (change)="onFilterOptionChange('amenities', option.id)"
+                class="filter-checkbox">
+                <span class="option-label">{{ option.label | translate }}</span>
+                <span class="option-count" *ngIf="option.count">({{ option.count }})</span>
+              </mat-checkbox>
+            </div>
+          </mat-expansion-panel>
+
+        </div>
+      </mat-sidenav>
+
+      <!-- Main Content Area -->
+      <mat-sidenav-content class="main-content">
+        <!-- Results Section -->
+        <div class="results-section">
+          <!-- Loading State -->
+          <div class="loading-container" *ngIf="isLoading">
+            <mat-card class="loading-card">
+              <mat-card-content>
+                <div class="loading-content">
+                  <mat-spinner diameter="40"></mat-spinner>
+                  <p class="loading-text">{{ 'search.searchInProgress' | translate }}</p>
+                </div>
+              </mat-card-content>
+            </mat-card>
+          </div>
+
+          <!-- No Search State -->
+          <div class="no-search-container" *ngIf="!searchData && !isLoading">
+            <mat-card class="no-search-card">
+              <mat-card-content>
+                <div class="no-search-content">
+                  <mat-icon class="no-search-icon">search</mat-icon>
+                  <h2 class="no-search-title">{{ 'search.label' | translate }}</h2>
+                  <p class="no-search-text">
+                    {{ 'search.noResults' | translate }}
+                  </p>
+                </div>
+              </mat-card-content>
+            </mat-card>
+          </div>
+
+          <!-- Search Results Placeholder -->
+          <div class="search-results-container" *ngIf="searchData && !isLoading">
+            <mat-card class="results-placeholder-card">
+              <mat-card-content>
+                <div class="results-placeholder-content">
+                  <mat-icon class="results-icon">hotel</mat-icon>
+                  <h2 class="results-title">{{ 'search.searchResults' | translate }}</h2>
+                  <p class="results-text">
+                    Search results will be displayed here. This is where you would show:
+                  </p>
+                  <ul class="results-features">
+                    <li>Available rooms and hotels</li>
+                    <li>Filtering options (price, rating, amenities)</li>
+                    <li>Sorting capabilities</li>
+                    <li>Room details and booking options</li>
+                  </ul>
+
+                  <!-- Active Filters Display -->
+                  <div class="active-filters-display" *ngIf="getActiveFiltersCount() > 0">
+                    <h3>Active Filters ({{ getActiveFiltersCount() }}):</h3>
+                    <div class="active-filters-chips">
+                      <!-- Price Range Chip -->
+                      <mat-chip-set *ngIf="selectedPriceMin > 0 || selectedPriceMax < 1000">
+                        <mat-chip>
+                          {{ 'filters.priceRange' | translate }}: ${{ selectedPriceMin }} - ${{ selectedPriceMax }}
+                          <button matChipRemove (click)="clearFilterCategory('priceRange')">
+                            <mat-icon>cancel</mat-icon>
+                          </button>
+                        </mat-chip>
+                      </mat-chip-set>
+
+                      <!-- Available Hotels Chip -->
+                      <mat-chip-set *ngIf="filters.availableHotels">
+                        <mat-chip>
+                          {{ 'filters.availableOnly' | translate }}
+                          <button matChipRemove (click)="onAvailableHotelsChange()">
+                            <mat-icon>cancel</mat-icon>
+                          </button>
+                        </mat-chip>
+                      </mat-chip-set>
+                    </div>
+                  </div>
+                </div>
+              </mat-card-content>
+            </mat-card>
+          </div>
+        </div>
+      </mat-sidenav-content>
+
+    </mat-sidenav-container>
+  </div>
+</div>

@@ -1,0 +1,57 @@
+<nav class="navbar navbar-expand-lg bg-body-tertiary ">
+  <div class="container d-flex align-items-center justify-content-between">
+    <div class="lfeen-logo">
+      <img src="assets/images/logos/logo_transparent.png" alt="Logo" width="30%" height="auto" />
+    </div>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ms-auto mb-3 mb-lg-0 align-items-center">
+        <!-- لغة: زر بصورة علم + mat-menu مثل الهيدر -->
+        <li class="nav-item d-none d-lg-flex">
+          <button mat-icon-button [matMenuTriggerFor]="flags" class="m-2 d-flex align-items-center justify-content-center">
+            <img [src]="selectedLanguage?.icon" class="rounded-circle object-cover" width="20" height="20" />
+          </button>
+          <mat-menu #flags="matMenu" class="cardWithShadow">
+            @for(lang of languages; track lang.icon) {
+              <button mat-menu-item (click)="changeLanguage(lang)">
+                <div class="d-flex align-items-center">
+                  <img [src]="lang.icon" class="rounded-circle object-cover m-r-8" width="20" height="20" />
+                  <span class="f-s-14">{{ lang.language }}</span>
+                </div>
+              </button>
+            }
+            <mat-divider></mat-divider>
+            <button mat-menu-item (click)="resetToBrowserLanguage()">
+              <div class="d-flex align-items-center">
+                <i-tabler name="refresh" class="m-r-8 icon-20"></i-tabler>
+                <span class="f-s-14">استخدام لغة المتصفح</span>
+              </div>
+            </button>
+          </mat-menu>
+        </li>
+
+        <!-- ثيم: نفس منطق الهيدر -->
+        <li class="nav-item d-none d-lg-flex">
+          @if(options.theme=='light'){
+            <button mat-icon-button aria-label="lightdark" class="m-2 d-flex justify-content-center" (click)="setlightDark('dark')">
+              <i-tabler class="d-flex icon-22" [name]="'moon'"></i-tabler>
+            </button>
+          } @else {
+            <button mat-icon-button aria-label="lightdark" class="m-2 d-flex justify-content-center" (click)="setlightDark('light')">
+              <i-tabler class="d-flex icon-22" [name]="'sun'"></i-tabler>
+            </button>
+          }
+        </li>
+
+        <!-- زر التسجيل -->
+        <li class="nav-item">
+          <button type="button" class="btn btn-outline-dark p-3 ps-5 pe-5 m-2 rounded-pill f-w-900 f-s-21 text-center" routerLink="/register">سجل معنا</button>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>

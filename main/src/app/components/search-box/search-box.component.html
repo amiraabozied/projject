@@ -1,0 +1,412 @@
+<!-- Main Search Container -->
+<div class="almosafer-search-container">
+  <form [formGroup]="searchForm" (ngSubmit)="onSubmit()" class="search-form">
+
+    <!-- Search Bar Layout -->
+    <div class="search-bar" [ngClass]="{ 'rtl-order': isRTL, 'ltr-order': isLTR }">
+      <!-- Guest Summary Field - Material Form Field with Floating Label -->
+      <div class="search-field guest-field">
+        <mat-form-field appearance="outline" class="full-width large-input">
+          <mat-label>{{ 'search.guestsAndRooms' | translate }}</mat-label>
+          <input matInput
+                #guestTrigger
+                readonly
+                [value]="getGuestSummary()"
+                (click)="openGuestPanel()"
+                [class.active]="isGuestPanelOpen"
+                style="cursor: pointer;">
+          <!-- Icon position based on language direction -->
+          <!-- <mat-icon *ngIf="isLTR" matPrefix>people</mat-icon>
+          <mat-icon *ngIf="isRTL" matSuffix>people</mat-icon> -->
+
+          <mat-icon *ngIf="isRTL" matPrefix>people</mat-icon>
+          <mat-icon *ngIf="isLTR" matPrefix>people</mat-icon>
+        </mat-form-field>
+
+        <!-- Almosafer-style Guest Popup (appears below guest field) -->
+        <div class="almosafer-guest-popup"
+             *ngIf="isGuestPanelOpen"
+             #guestPopup
+             [@almosaferSlideIn]>
+          <div class="popup-content">
+            <!-- Popup Header -->
+            <div class="popup-header">
+              <div class="header-content">
+                <mat-icon class="header-icon">hotel</mat-icon>
+                <h3 class="popup-title">{{ 'search.roomConfiguration' | translate }}</h3>
+              </div>
+              <div class="room-counter">
+                <span class="room-count">{{ rooms.length }}</span>
+                <span class="room-label">{{ rooms.length === 1 ? 'غرفة' : 'غرف' }}</span>
+              </div>
+            </div>
+
+            <!-- Rooms List -->
+            <div class="rooms-list" formArrayName="rooms">
+              <div class="almosafer-room-card"
+                   *ngFor="let room of rooms.controls; let roomIndex = index"
+                   [formGroupName]="roomIndex">
+
+                <!-- Room Card Header -->
+                <div class="room-card-header">
+                  <div class="room-info">
+                    <mat-icon class="room-icon">hotel</mat-icon>
+                    <span class="room-title">{{ getRoomTitle(roomIndex) }}</span>
+                  </div>
+                  <button type="button"
+                          class="delete-room-btn"
+                          (click)="removeRoom(roomIndex)"
+                          [disabled]="!canDeleteRoom()"
+                          [matTooltip]="canDeleteRoom() ? ('حذف ' + getRoomTitle(roomIndex)) : 'يجب أن تحتوي على غرفة واحدة على الأقل'">
+                    <mat-icon>close</mat-icon>
+                  </button>
+                </div>
+
+                <!-- Guest Counters Section -->
+                <div class="guest-counters-section">
+                  <!-- Adults Counter -->
+                  <div class="almosafer-counter">
+                    <div class="counter-info">
+                      <mat-icon class="counter-icon">person</mat-icon>
+                      <div class="counter-text">
+                        <span class="counter-label">{{ 'search.adults' | translate }}</span>
+                        <span class="counter-desc">12 سنة فأكثر</span>
+                      </div>
+                    </div>
+                    <div class="counter-controls">
+                      <button type="button"
+                              class="almosafer-counter-btn"
+                              (click)="decrementAdults(roomIndex)"
+                              [disabled]="rooms.at(roomIndex).get('adults')?.value <= 1">
+                        <mat-icon>remove</mat-icon>
+                      </button>
+                      <span class="almosafer-counter-value">{{ rooms.at(roomIndex).get('adults')?.value }}</span>
+                      <button type="button"
+                              class="almosafer-counter-btn"
+                              (click)="incrementAdults(roomIndex)"
+                              [disabled]="rooms.at(roomIndex).get('adults')?.value >= 5">
+                        <mat-icon>add</mat-icon>
+                      </button>
+                    </div>
+                  </div>
+
+                  <!-- Children Counter -->
+                  <div class="almosafer-counter">
+                    <div class="counter-info">
+                      <mat-icon class="counter-icon">child_care</mat-icon>
+                      <div class="counter-text">
+                        <span class="counter-label">{{ 'search.children' | translate }}</span>
+                        <span class="counter-desc">0-11 سنة</span>
+                      </div>
+                    </div>
+                    <div class="counter-controls">
+                      <button type="button"
+                              class="almosafer-counter-btn"
+                              (click)="decrementChildren(roomIndex)"
+                              [disabled]="rooms.at(roomIndex).get('childrenCount')?.value <= 0">
+                        <mat-icon>remove</mat-icon>
+                      </button>
+                      <span class="almosafer-counter-value">{{ rooms.at(roomIndex).get('childrenCount')?.value }}</span>
+                      <button type="button"
+                              class="almosafer-counter-btn"
+                              (click)="incrementChildren(roomIndex)"
+                              [disabled]="rooms.at(roomIndex).get('childrenCount')?.value >= 4">
+                        <mat-icon>add</mat-icon>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Children Ages Section -->
+                <div class="children-ages-section"
+                     *ngIf="getRoomChildren(roomIndex).length > 0"
+                     formArrayName="children">
+                  <div class="ages-header">
+                    <mat-icon class="ages-icon">cake</mat-icon>
+                    <span class="ages-title">{{ 'search.childAge' | translate }}</span>
+                  </div>
+                  <div class="ages-grid">
+                    <div class="age-selector"
+                         *ngFor="let child of getRoomChildren(roomIndex).controls; let childIndex = index"
+                         [formGroupName]="childIndex">
+                      <label class="age-label">الطفل {{ childIndex + 1 }}</label>
+                      <mat-form-field appearance="outline" class="age-dropdown">
+                        <mat-select formControlName="age" placeholder="العمر">
+                          <mat-option *ngFor="let age of ageOptions" [value]="age">
+                            {{ age }} {{ age === 1 ? 'سنة' : 'سنوات' }}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Bed Types Section -->
+                <div class="almosafer-bed-section">
+                  <div class="bed-section-header">
+                    <div class="bed-header-info">
+                      <mat-icon class="bed-icon">bed</mat-icon>
+                      <span class="bed-title">{{ 'search.bedTypes' | translate }}</span>
+                    </div>
+                    <div class="bed-counter-badge">
+                      <span class="bed-count">{{ getCurrentBedsCount(roomIndex) }}</span>
+                      <span class="bed-max">/{{ getMaxBedsForRoom(roomIndex) }}</span>
+                    </div>
+                  </div>
+
+                  <!-- Bed Options Grid -->
+                  <div class="almosafer-bed-grid">
+                    <div class="almosafer-bed-option"
+                         *ngFor="let bedType of getVisibleBedTypes()"
+                         [class.selected]="isBedTypeSelected(roomIndex, bedType)"
+                         (click)="toggleBedType(roomIndex, bedType)">
+
+                      <div class="bed-option-content">
+                        <mat-checkbox
+                          [checked]="isBedTypeSelected(roomIndex, bedType)"
+                          [disabled]="!isBedTypeSelected(roomIndex, bedType) && getCurrentBedsCount(roomIndex) >= getMaxBedsForRoom(roomIndex)"
+                          (click)="$event.stopPropagation()">
+                        </mat-checkbox>
+                        <span class="bed-type-name">{{ 'bedType.' + bedType | translate }}</span>
+                      </div>
+
+                      <!-- Quantity Controls -->
+                      <div class="almosafer-bed-quantity" *ngIf="isBedTypeSelected(roomIndex, bedType)">
+                        <button type="button"
+                                class="bed-quantity-btn"
+                                (click)="updateBedTypeQuantity(roomIndex, bedType, getBedTypeQuantity(roomIndex, bedType) - 1); $event.stopPropagation()"
+                                [disabled]="getBedTypeQuantity(roomIndex, bedType) <= 1">
+                          <mat-icon>remove</mat-icon>
+                        </button>
+                        <span class="bed-quantity-value">{{ getBedTypeQuantity(roomIndex, bedType) }}</span>
+                        <button type="button"
+                                class="bed-quantity-btn"
+                                (click)="updateBedTypeQuantity(roomIndex, bedType, getBedTypeQuantity(roomIndex, bedType) + 1); $event.stopPropagation()"
+                                [disabled]="getCurrentBedsCount(roomIndex) >= getMaxBedsForRoom(roomIndex)">
+                          <mat-icon>add</mat-icon>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Show More/Less Button -->
+                  <button type="button"
+                          class="almosafer-more-beds-btn"
+                          (click)="toggleMoreBedOptions()">
+                    <mat-icon>{{ showMoreBedOptions ? 'expand_less' : 'expand_more' }}</mat-icon>
+                    <span>{{ showMoreBedOptions ? ('search.lessOptions' | translate) : ('search.moreOptions' | translate) }}</span>
+                  </button>
+
+                  <!-- Max beds warning -->
+                  <div class="bed-warning" *ngIf="getCurrentBedsCount(roomIndex) >= getMaxBedsForRoom(roomIndex)">
+                    <mat-icon>warning</mat-icon>
+                    {{ 'search.maxBedsWarning' | translate: {max: getMaxBedsForRoom(roomIndex)} }}
+                  </div>
+                </div>
+
+                <mat-divider *ngIf="roomIndex < rooms.length - 1"></mat-divider>
+              </div>
+            </div>
+
+            <!-- Popup Actions - Only Add Room Button -->
+            <div class="almosafer-popup-actions">
+              <!-- Add Room Button -->
+              <button type="button"
+                      class="almosafer-add-room-btn"
+                      *ngIf="rooms.length < 4"
+                      (click)="addRoom()">
+                <mat-icon>add</mat-icon>
+                <span>{{ 'search.addRoom' | translate }}</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Custom Date Range Input - Almosafer Style -->
+      <div class="search-field date-range-field" #dateField>
+        <div class="custom-date-input" [class.rtl]="isRTL" [class.ltr]="isLTR" [class.calendar-open]="isInlineCalendarOpen" (click)="openDatePicker()">
+          <!-- Check-in Date Button -->
+          <button class="date-btn check-in-btn" type="button" [attr.aria-label]="'search.checkIn' | translate">
+            <div class="date-content">
+              <span class="checkin-label">{{ formatCheckIn() || ('search.pickDates' | translate) }}</span>
+            </div>
+          </button>
+
+          <!-- Divider -->
+          <div class="divider"></div>
+
+          <!-- Check-out Date Button -->
+          <button class="date-btn check-out-btn" type="button" [attr.aria-label]="'search.checkOut' | translate">
+            <div class="date-content">
+              <span class="checkout-label">{{ formatCheckOut() || ('search.pickDates' | translate) }}</span>
+            </div>
+          </button>
+
+
+
+          <!-- Nights Badge -->
+          <div class="nights-badge" *ngIf="validateDateRange() && getNumberOfNights() > 0">
+            <span class="nights-text">{{ getNightsText() }}</span>
+          </div>
+        </div>
+
+        <!-- Hidden Material Date Range Picker for Dialog -->
+        <div style="display: none;">
+          <mat-date-range-input [rangePicker]="dateRangePicker"
+                                [min]="minDate"
+                                [max]="maxDate"
+                                (keydown)="onDatePickerKeydown($event)">
+            <input matStartDate
+                  formControlName="checkIn"
+                  readonly>
+            <input matEndDate
+                  formControlName="checkOut"
+                  [min]="selectedCheckInDate"
+                  readonly>
+          </mat-date-range-input>
+          <mat-date-range-picker #dateRangePicker
+                                (opened)="onDateRangePickerOpened()"
+                                (closed)="onDateRangePickerClosed()">
+            <mat-date-range-picker-actions>
+              <div class="date-picker-step-indicator">
+                <span class="step-label">{{ getCurrentStepLabel() }}</span>
+                <button mat-button
+                        type="button"
+                        class="reset-btn"
+                        (click)="resetDateSelection()"
+                        *ngIf="dateSelectionStep === 'check-out'">
+                  {{ 'search.reset' | translate }}
+                </button>
+              </div>
+              <div class="action-buttons">
+                <button mat-button matDateRangePickerCancel>{{ 'search.cancel' | translate }}</button>
+                <button mat-raised-button color="primary" matDateRangePickerApply>{{ 'search.apply' | translate }}</button>
+              </div>
+            </mat-date-range-picker-actions>
+          </mat-date-range-picker>
+        </div>
+
+        <!-- Error Messages -->
+        <div class="date-errors" *ngIf="(searchForm.get('checkIn')?.invalid && searchForm.get('checkIn')?.touched) || (searchForm.get('checkOut')?.invalid && searchForm.get('checkOut')?.touched)">
+          <div class="error-message" *ngIf="searchForm.get('checkIn')?.invalid && searchForm.get('checkIn')?.touched">
+            {{ getErrorMessage('checkIn') }}
+          </div>
+          <div class="error-message" *ngIf="searchForm.get('checkOut')?.invalid && searchForm.get('checkOut')?.touched">
+            {{ getErrorMessage('checkOut') }}
+          </div>
+        </div>
+
+        <!-- Inline Calendar Container - FIXED: Now uses same animation as guest popup -->
+        <div class="inline-calendar-container"
+             *ngIf="isInlineCalendarOpen"
+             [@almosaferSlideIn]>
+          <div class="inline-calendar-wrapper">
+            <app-custom-calendar-overlay
+              [isVisible]="true"
+              [checkIn]="checkIn"
+              [checkOut]="checkOut"
+              [minDate]="minDate"
+              [maxDate]="maxDate"
+              [isInlineMode]="true"
+              (selectionChange)="onCustomCalendarSelectionChange($event)"
+              (close)="closeInlineCalendar()">
+            </app-custom-calendar-overlay>
+          </div>
+        </div>
+      </div>
+
+      <!-- Custom Calendar Overlay -->
+      <app-custom-calendar-overlay
+        [isVisible]="isCustomCalendarVisible"
+        [checkIn]="checkIn"
+        [checkOut]="checkOut"
+        [minDate]="minDate"
+        [maxDate]="maxDate"
+        (selectionChange)="onCustomCalendarSelectionChange($event)"
+        (close)="onCustomCalendarClose()">
+      </app-custom-calendar-overlay>
+
+      <!-- Location Input -->
+      <div class="search-field location-field">
+        <mat-form-field appearance="outline" class="full-width large-input location-field">
+          <mat-label>{{ 'search.locationPlaceholder' | translate }}</mat-label>
+          <!-- Icon position based on language direction -->
+          <mat-icon *ngIf="isRTL" matPrefix>location_on</mat-icon>
+          <mat-icon *ngIf="isLTR" matPrefix>location_on</mat-icon>
+          <input
+            matInput
+            formControlName="splCode"
+            [matAutocomplete]="locAuto"
+            autocomplete="off"
+            (focus)="openLocationPanel()"
+            (click)="openLocationPanel()"
+            (mousedown)="openLocationPanel()"
+            (touchstart)="openLocationPanel()"
+            maxlength="50">
+          <mat-error *ngIf="searchForm.get('splCode')?.invalid && searchForm.get('splCode')?.touched">
+            {{ getSplCodeError() }}
+          </mat-error>
+
+          <mat-autocomplete
+            #locAuto="matAutocomplete"
+            autoActiveFirstOption
+            (optionSelected)="onLocationSelected($event.option.value)">
+            <!-- Recent suggestions -->
+            <ng-container *ngIf="recentSuggestions.length">
+              <!-- <mat-optgroup [label]="'search.recent' | translate"> -->
+                <mat-option *ngFor="let s of recentSuggestions" [value]="s">
+                  <mat-icon class="opt-icn">history</mat-icon>
+                  <span>{{ s.name }}</span>
+                  <small *ngIf="s.subText">· {{ s.subText }}</small>
+                </mat-option>
+              <!-- </mat-optgroup> -->
+            </ng-container>
+            <!-- Popular suggestions -->
+            <ng-container *ngIf="popularSuggestions.length">
+              <!-- <mat-optgroup [label]="'search.popular' | translate"> -->
+                <mat-option *ngFor="let s of popularSuggestions" [value]="s">
+                  <mat-icon class="opt-icn">star</mat-icon>
+                  <span>{{ s.name }}</span>
+                  <small *ngIf="s.subText">· {{ s.subText }}</small>
+                </mat-option>
+              <!-- </mat-optgroup> -->
+            </ng-container>
+            <!-- Live results (no header) -->
+            <ng-container *ngIf="(suggestions$ | async) as list">
+              <mat-option *ngFor="let s of list" [value]="s">
+                <mat-icon class="opt-icn">
+                  {{ s.type === 'airport' ? 'flight_takeoff' : (s.type === 'city' ? 'location_city' : 'place') }}
+                </mat-icon>
+                <span>{{ s.name }}</span>
+                <small *ngIf="s.subText">· {{ s.subText }}</small>
+              </mat-option>
+
+              <!-- اختياري: سطر "لا توجد نتائج" -->
+              <mat-option disabled *ngIf="!list.length">
+                {{ 'search.noResults' | translate }}
+              </mat-option>
+            </ng-container>
+
+
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+
+      <!-- Search Button -->
+      <div class="search-field search-button-field">
+        <button type="submit"
+                mat-raised-button
+                class="search-btn"
+                [class.active-search]="searchForm.valid"
+                [class.disabled-search]="searchForm.invalid"
+                [disabled]="searchForm.invalid">
+          <mat-icon>search</mat-icon>
+          {{ getSearchButtonLabel() }}
+        </button>
+      </div>
+    </div>
+
+
+  </form>
+</div>

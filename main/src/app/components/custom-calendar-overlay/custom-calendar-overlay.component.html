@@ -1,0 +1,201 @@
+<!-- Calendar Overlay -->
+<div class="calendar-overlay"
+     *ngIf="isVisible"
+     [class.rtl]="isRTL"
+     [class.ltr]="!isRTL"
+     [class.inline-mode]="isInlineMode"
+     [class.overlay-mode]="!isInlineMode">
+  <!-- Backdrop (only for overlay mode) -->
+  <div class="calendar-backdrop" *ngIf="!isInlineMode" (click)="closeOverlay()"></div>
+
+  <div class="calendar-container" (click)="onContainerClick($event)"
+       [class.inline-container]="isInlineMode"
+       [class.overlay-container]="!isInlineMode">
+
+    <!-- Close Button moved to top-right corner (only in overlay mode) -->
+    <button
+      type="button"
+      class="close-button floating-close"
+      *ngIf="!isInlineMode"
+      (click)="closeOverlay()"
+      [attr.aria-label]="'common.close' | translate">
+      <mat-icon>close</mat-icon>
+    </button>
+
+    <!-- Month Navigation Bar -->
+    <div class="month-nav">
+      <button
+        type="button"
+        class="nav-button prev-button"
+        (click)="navigate('prev', $event)"
+        [attr.aria-label]="'calendar.previousMonth' | translate">
+        <mat-icon>{{ isRTL ? 'chevron_right' : 'chevron_left' }}</mat-icon>
+
+      </button>
+
+      <div class="month-titles">
+        <div class="month-title right-month">
+          {{ getMonthYearLabel('right') }}
+        </div>
+        <div class="month-title left-month">
+          {{ getMonthYearLabel('left') }}
+        </div>
+      </div>
+
+
+
+      <button
+        type="button"
+        class="nav-button next-button"
+        (click)="navigate('next', $event)"
+        [attr.aria-label]="'calendar.nextMonth' | translate">
+        <mat-icon>{{ isRTL ? 'chevron_left' : 'chevron_right' }}</mat-icon>
+      </button>
+
+    </div>
+
+    <!-- Calendars Container -->
+    <div class="calendars-container">
+
+      <!-- Right Calendar (Check-in) -->
+      <div class="calendar-section right-calendar">
+        <!-- <div class="calendar-title">
+          {{ 'search.checkIn' | translate }}
+        </div> -->
+
+        <!-- Calendar Grid -->
+        <div class="calendar-grid">
+          <!-- Day Names Header -->
+          <div class="day-names">
+            <div class="day-name" *ngFor="let dayName of getDayNames()">
+              {{ dayName }}
+            </div>
+          </div>
+
+          <!-- Calendar Days -->
+          <div class="calendar-days">
+            <button
+              type="button"
+              class="calendar-day"
+              *ngFor="let day of rightCalendarDays"
+              [class.other-month]="!day.isCurrentMonth"
+              [class.today]="day.isToday"
+              [class.selected]="day.isSelected"
+              [class.check-in]="day.isCheckIn"
+              [class.check-out]="day.isCheckOut"
+              [class.in-range]="day.isInRange"
+              [class.range-start]="day.isRangeStart"
+              [class.range-end]="day.isRangeEnd"
+              [class.disabled]="day.isDisabled"
+              [disabled]="day.isDisabled"
+              (click)="onDayClick(day)"
+              [attr.aria-label]="day.date | date:'fullDate'">
+              <span class="day-number">
+                {{ calendarType === 'hijri' ? (day.hijriDay || day.day) : day.day }}
+              </span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Left Calendar (Check-out) -->
+      <div class="calendar-section left-calendar">
+        <!-- <div class="calendar-title">
+          {{ 'search.checkOut' | translate }}
+        </div> -->
+
+        <!-- Calendar Grid -->
+        <div class="calendar-grid">
+          <!-- Day Names Header -->
+          <div class="day-names">
+            <div class="day-name" *ngFor="let dayName of getDayNames()">
+              {{ dayName }}
+            </div>
+          </div>
+
+          <!-- Calendar Days -->
+          <div class="calendar-days">
+            <button
+              type="button"
+              class="calendar-day"
+              *ngFor="let day of leftCalendarDays"
+              [class.other-month]="!day.isCurrentMonth"
+              [class.today]="day.isToday"
+              [class.selected]="day.isSelected"
+              [class.check-in]="day.isCheckIn"
+              [class.check-out]="day.isCheckOut"
+              [class.in-range]="day.isInRange"
+              [class.range-start]="day.isRangeStart"
+              [class.range-end]="day.isRangeEnd"
+              [class.disabled]="day.isDisabled"
+              [disabled]="day.isDisabled"
+              (click)="onDayClick(day)"
+              [attr.aria-label]="day.date | date:'fullDate'">
+              <span class="day-number">
+                {{ calendarType === 'hijri' ? (day.hijriDay || day.day) : day.day }}
+              </span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Date Difference Summary with Calendar Toggle -->
+    <div class="date-summary" *ngIf="tempCheckIn && tempCheckOut">
+      <div class="summary-content">
+        <!-- Calendar Type Tabs moved to footer -->
+        <div class="calendar-tabs footer-tabs" 
+             [class.rtl-tabs]="isRTL" 
+             [class.ltr-tabs]="!isRTL">
+          <button
+            type="button"
+            class="tab-button"
+            [class.active]="calendarType === 'gregorian'"
+            (click)="switchCalendarType('gregorian', $event)"
+            [attr.aria-label]="'calendar.gregorian' | translate">
+            {{ 'calendar.gregorian' | translate }}
+          </button>
+          <button
+            type="button"
+            class="tab-button"
+            [class.active]="calendarType === 'hijri'"
+            (click)="switchCalendarType('hijri', $event)"
+            [attr.aria-label]="'calendar.hijri' | translate">
+            {{ 'calendar.hijri' | translate }}
+          </button>
+        </div>
+        
+        <!-- Date Summary Items -->
+        <div class="summary-items">
+          <div class="summary-item">
+            <span class="summary-label">{{ 'calendar.years' | translate }}</span>
+            <span class="summary-value">{{ getDateDifference().years }}</span>
+          </div>
+          <div class="summary-separator">•</div>
+          <div class="summary-item">
+            <span class="summary-label">{{ 'calendar.months' | translate }}</span>
+            <span class="summary-value">{{ getDateDifference().months }}</span>
+          </div>
+          <div class="summary-separator">•</div>
+          <div class="summary-item">
+            <span class="summary-label">{{ 'calendar.days' | translate }}</span>
+            <span class="summary-value">{{ getDateDifference().days }}</span>
+          </div>
+          <div class="summary-total">
+            <span class="total-label">{{ 'calendar.totalDays' | translate }}:</span>
+            <span class="total-value">{{ getDateDifference().totalDays }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Selection Instructions -->
+    <div class="selection-instructions" *ngIf="!tempCheckIn || !tempCheckOut">
+      <div class="instruction-text">
+        <mat-icon>info</mat-icon>
+        <span *ngIf="selectionStep === 'check-in'">{{ 'calendar.selectCheckIn' | translate }}</span>
+        <span *ngIf="selectionStep === 'check-out'">{{ 'calendar.selectCheckOut' | translate }}</span>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotel Search Box Component Demo</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .demo-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+        }
+        .demo-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .demo-title {
+            font-size: 2.5rem;
+            color: #1976d2;
+            margin: 0 0 16px 0;
+            font-weight: 700;
+        }
+        .demo-subtitle {
+            font-size: 1.2rem;
+            color: #666;
+            margin: 0;
+        }
+        .demo-info {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 32px;
+            border-left: 4px solid #1976d2;
+        }
+        .demo-info h3 {
+            margin: 0 0 16px 0;
+            color: #1976d2;
+            font-size: 1.3rem;
+        }
+        .demo-info ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+        .demo-info li {
+            margin-bottom: 8px;
+            color: #555;
+        }
+        .url-info {
+            background: #e8f5e8;
+            border: 2px solid #4caf50;
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 32px;
+            text-align: center;
+        }
+        .url-info h3 {
+            margin: 0 0 12px 0;
+            color: #2e7d32;
+            font-size: 1.4rem;
+        }
+        .url-link {
+            font-size: 1.2rem;
+            color: #1976d2;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 12px 24px;
+            background: white;
+            border-radius: 8px;
+            display: inline-block;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        .url-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+        }
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin-top: 32px;
+        }
+        .feature-card {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        .feature-card:hover {
+            border-color: #1976d2;
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(25, 118, 210, 0.15);
+        }
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 16px;
+        }
+        .feature-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #1976d2;
+            margin: 0 0 12px 0;
+        }
+        .feature-desc {
+            color: #666;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-container">
+        <div class="demo-header">
+            <h1 class="demo-title">🏨 Hotel Search Box Component</h1>
+            <p class="demo-subtitle">Complete Angular Material Hotel Search Interface</p>
+        </div>
+
+        <div class="demo-info">
+            <h3>✅ Component Successfully Built & Running!</h3>
+            <ul>
+                <li><strong>Location:</strong> src/app/components/search-box/</li>
+                <li><strong>Status:</strong> ✅ Compilation Successful</li>
+                <li><strong>Server:</strong> ✅ Running on Port 4200</li>
+                <li><strong>Integration:</strong> ✅ Added to Starter Page</li>
+            </ul>
+        </div>
+
+        <div class="url-info">
+            <h3>🚀 View Your Search Component</h3>
+            <a href="http://localhost:4200/starter" class="url-link" target="_blank">
+                http://localhost:4200/starter
+            </a>
+            <p style="margin: 16px 0 0 0; color: #666;">
+                Click the link above to see your hotel search component in action!
+            </p>
+        </div>
+
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">📱</div>
+                <h3 class="feature-title">Responsive Design</h3>
+                <p class="feature-desc">Fully responsive layout that works perfectly on desktop, tablet, and mobile devices</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🎨</div>
+                <h3 class="feature-title">Material Design</h3>
+                <p class="feature-desc">Built with Angular Material components following Google's Material Design principles</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🏠</div>
+                <h3 class="feature-title">Dynamic Rooms</h3>
+                <p class="feature-desc">Add up to 4 rooms with adults, children, and bed preferences. Children ages are dynamically managed</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">✅</div>
+                <h3 class="feature-title">Form Validation</h3>
+                <p class="feature-desc">Complete reactive form validation with real-time error messages and user feedback</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">📅</div>
+                <h3 class="feature-title">Date Pickers</h3>
+                <p class="feature-desc">Material date pickers for check-in and check-out dates with proper validation</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🔄</div>
+                <h3 class="feature-title">JSON Output</h3>
+                <p class="feature-desc">Clean, structured JSON output ready for backend integration and API calls</p>
+            </div>
+        </div>
+
+        <div style="margin-top: 40px; padding: 24px; background: #fff3e0; border-radius: 12px; border-left: 4px solid #ff9800;">
+            <h3 style="margin: 0 0 16px 0; color: #f57c00;">📋 How to Test the Component</h3>
+            <ol style="margin: 0; padding-left: 20px; color: #555;">
+                <li>Click the link above to open the application</li>
+                <li>You'll see the search component at the top of the starter page</li>
+                <li>Fill in the SPL Code (minimum 3 characters)</li>
+                <li>Select check-in and check-out dates</li>
+                <li>Configure rooms, adults, and children</li>
+                <li>Click "Search Hotels" to see the JSON output in console and alert</li>
+                <li>Try the "Reset" button to clear the form</li>
+                <li>Test responsive behavior by resizing your browser</li>
+            </ol>
+        </div>
+    </div>
+</body>
+</html>

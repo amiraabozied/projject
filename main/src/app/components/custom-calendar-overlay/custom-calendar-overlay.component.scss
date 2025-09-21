@@ -1,0 +1,960 @@
+@use '../../../assets/scss/variables' as *;
+
+// Calendar Overlay Container
+.calendar-overlay {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1000;
+  max-width: 95vw; // Increased from 90vw
+  max-height: 95vh; // Increased from 90vh
+  overflow: auto;
+
+  &.rtl {
+    direction: rtl;
+  }
+
+  &.ltr {
+    direction: ltr;
+  }
+
+  // Inline mode positioning - positioned as popup below the date input field
+  &.inline-mode {
+    position: static; // Let parent container handle positioning
+    top: auto;
+    left: auto;
+    right: auto;
+    transform: none;
+    max-width: none;
+    max-height: none; // Remove height constraint
+    overflow: visible; // Remove overflow constraint
+    margin: 0; // Remove margins, parent handles spacing
+    z-index: auto; // Parent handles z-index
+    width: auto; // Allow natural width
+
+    @media (max-width: 768px) {
+      width: auto; // Allow natural width on mobile
+    }
+  }
+}
+
+// Backdrop
+.calendar-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  cursor: pointer;
+}
+
+// Main Calendar Container
+.calendar-container {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.15);
+  overflow: visible; // Changed from hidden to visible
+  min-width: 1000px; // Further increased minimum width
+  max-width: 1200px; // Further increased maximum width
+  width: 100%;
+  position: relative;
+  z-index: 1000;
+
+  @media (max-width: 768px) {
+    min-width: 350px; // Increased mobile minimum width
+    max-width: 95vw;
+    border-radius: 12px;
+  }
+
+  // Inline container styling - for popup calendar
+  &.inline-container {
+    width: auto; // Allow natural width
+    min-width: 850px; // Further increased minimum width for inline
+    max-width: none; // Remove width constraint
+    max-height: none; // Remove height constraint
+    box-shadow: none; // Remove shadow, parent wrapper handles it
+    border: 1px solid var(--mat-sys-outline-variant, #e0e0e0);
+    overflow: visible; // Remove any internal overflow constraints
+    background: white; // Ensure background
+
+    @media (max-width: 768px) {
+      min-width: 380px; // Further increased mobile minimum width
+      max-width: none;
+      width: auto; // Allow natural width on mobile
+    }
+  }
+
+  // Overlay container styling - centered on screen
+  &.overlay-container {
+    // Keep existing styles for overlay mode
+  }
+}
+
+// Header with Tabs
+.calendar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px;
+  background: #f5f5f5;
+  border-bottom: 1px solid #e0e0e0;
+
+  .calendar-tabs {
+    display: flex;
+    gap: 4px;
+    background: white;
+    border-radius: 8px;
+    padding: 4px;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+
+    .tab-button {
+      padding: 12px 24px;
+      border: none;
+      background: transparent;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 500;
+      color: #666;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+
+      &:hover {
+        background: #f0f0f0;
+        color: #333;
+      }
+
+      &.active {
+        background: black;
+        color: white;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+      }
+
+      @media (max-width: 768px) {
+        padding: 10px 16px;
+        font-size: 13px;
+      }
+    }
+  }
+
+  .close-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border: none;
+    background: transparent;
+    border-radius: 50%;
+    color: #666;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background: #f0f0f0;
+      color: #333;
+    }
+
+    mat-icon {
+      font-size: 20px;
+      width: 20px;
+      height: 20px;
+    }
+
+    // Floating close button style (moved from header)
+    &.floating-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      z-index: 10;
+      background: white;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      
+      &:hover {
+        background: #f5f5f5;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      }
+    }
+  }
+}
+
+// Month Navigation Bar - Now acts as header after header removal
+.month-nav {
+  display: grid;
+  grid-template-columns: 48px 1fr 48px;
+  align-items: center;
+  padding: 24px 24px 16px 24px; // Extra top padding to replace header space
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  gap: 16px;
+
+  .nav-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border: none;
+    background: white;
+    border-radius: 50%;
+    color: black;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: 1px solid #e0e0e0;
+
+    &:hover {
+      background: #f0f0f0;
+    }
+
+    mat-icon {
+      font-size: 24px;
+      width: 24px;
+      height: 24px;
+    }
+  }
+
+  .month-titles {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+
+    .month-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: black;
+      text-align: center;
+      flex: 1;
+      white-space: nowrap;
+
+      &.right-month {
+        text-align: right;
+      }
+
+      &.left-month {
+        text-align: left;
+      }
+    }
+
+    @media (max-width: 768px) {
+      flex-direction: column;
+      gap: 8px;
+
+      .month-title {
+        font-size: 16px;
+        text-align: center !important;
+      }
+    }
+  }
+}
+
+// Calendars Container
+.calendars-container {
+  display: flex;
+  gap: 24px;
+  padding: 24px;
+  width: 100%;
+  box-sizing: border-box;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    gap: 20px;
+    padding: 16px;
+  }
+}
+
+// Individual Calendar Section
+.calendar-section {
+  flex: 1;
+  min-width: 350px; // Increased minimum width
+  max-width: none; // Remove max-width constraint
+
+  .calendar-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: black;
+    margin-bottom: 16px;
+    text-align: center;
+    padding: 8px 16px;
+    background: #f5f5f5;
+    border-radius: 8px;
+  }
+
+  // Specific styling for right calendar to ensure Friday column is visible
+  &.right-calendar {
+    min-width: 380px; // Extra width for right calendar
+    flex: 1.1; // Slightly more flex space
+  }
+
+  @media (max-width: 768px) {
+    max-width: 100%;
+    min-width: 320px;
+    
+    &.right-calendar {
+      min-width: 340px; // Increased mobile width
+    }
+  }
+}
+
+// Calendar Grid
+.calendar-grid {
+  border-radius: 12px;
+  overflow: visible; // Changed from hidden to visible
+  background: white;
+  width: 100%;
+  min-width: 320px; // Increased minimum width for all days
+
+  // Specific styling for right calendar grid
+  .right-calendar & {
+    min-width: 350px; // Extra width for right calendar grid
+  }
+
+  .day-names {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(45px, 1fr)); // Set minimum column width
+    background: #f5f5f5;
+    width: 100%;
+
+    .day-name {
+      padding: 12px 6px; // Increased horizontal padding
+      text-align: center;
+      font-size: 12px; // Increased font size
+      font-weight: 600;
+      color: #666;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+      min-width: 45px; // Increased minimum width for each day name
+      box-sizing: border-box;
+    }
+  }
+
+  .calendar-days {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(45px, 1fr)); // Set minimum column width same as day-names
+    grid-auto-rows: minmax(45px, 1fr); // Increased minimum row height
+    min-height: 270px; // Increased minimum height for 6 rows (45px * 6)
+    width: 100%;
+    gap: 1px; // Add small gap between days
+
+    @media (max-width: 768px) {
+      grid-template-columns: repeat(7, minmax(40px, 1fr)); // Smaller minimum on mobile
+      grid-auto-rows: minmax(40px, 1fr);
+      min-height: 240px; // Adjusted for mobile
+      gap: 0.5px;
+    }
+
+    .calendar-day {
+      position: relative;
+      aspect-ratio: 1;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px; // Increased font size
+      font-weight: 500;
+      color: #333;
+      min-width: 45px; // Increased minimum width to match grid
+      min-height: 45px; // Increased minimum height to match grid
+      box-sizing: border-box;
+
+      .day-number {
+        position: relative;
+        z-index: 2;
+        width: 36px; // Increased size
+        height: 36px; // Increased size
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        transition: all 0.2s ease;
+        font-size: 14px; // Increased font for day numbers
+
+        @media (max-width: 768px) {
+          width: 32px; // Increased mobile size
+          height: 32px; // Increased mobile size
+          font-size: 12px; // Increased mobile font
+        }
+      }
+
+      // Range background strip
+      &.in-range::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: #E0E0E0;
+        z-index: 1;
+      }
+
+      // Range start styling
+      &.range-start::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 50%;
+        right: 0;
+        bottom: 0;
+        background: #E0E0E0;
+        z-index: 1;
+      }
+
+      // Range end styling
+      &.range-end::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 50%;
+        bottom: 0;
+        background: #E0E0E0;
+        z-index: 1;
+      }
+
+      // Single day selection (both start and end)
+      &.range-start.range-end::before {
+        display: none;
+      }
+
+      &:hover:not(.disabled) {
+        background: #BDBDBD;
+      }
+
+      &.other-month {
+        color: #999;
+        opacity: 0.5;
+      }
+
+      &.today {
+        .day-number {
+          background: transparent;
+          border: 2px dashed #999;
+          color: #333;
+        }
+      }
+
+      &.selected:not(.check-in):not(.check-out) {
+        .day-number {
+          background: white;
+          border: 1px solid black;
+          color: black;
+        }
+      }
+
+      &.check-in {
+        .day-number {
+          background: black;
+          color: white;
+          font-weight: 600;
+        }
+      }
+
+      &.check-out {
+        .day-number {
+          background: black;
+          color: white;
+          font-weight: 600;
+        }
+      }
+
+      &.disabled {
+        opacity: 0.3;
+        cursor: not-allowed;
+
+        &:hover {
+          background: transparent;
+        }
+      }
+    }
+  }
+}
+
+// Date Summary
+.date-summary {
+  padding: 20px 24px;
+  background: #f5f5f5;
+  border-top: 1px solid #e0e0e0;
+
+  .summary-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; // Changed to space-between for tabs/summary layout
+    gap: 16px;
+    flex-wrap: wrap;
+
+    // Calendar tabs moved to footer
+    .calendar-tabs.footer-tabs {
+      display: flex;
+      gap: 8px;
+      order: 1; // Default order
+      
+      &.rtl-tabs {
+        order: 1; // Right side in RTL (appears first)
+      }
+      
+      &.ltr-tabs {
+        order: 2; // Left side in LTR (appears after summary)
+      }
+
+      .tab-button {
+        padding: 8px 16px;
+        border: 1px solid #ddd;
+        background: white;
+        color: #666;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        white-space: nowrap;
+
+        &:hover {
+          background: #f5f5f5;
+          border-color: #bbb;
+        }
+
+        &.active {
+          background: black;
+          color: white;
+          border-color: black;
+        }
+      }
+    }
+
+    // Summary items container
+    .summary-items {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex: 1;
+      justify-content: center;
+      order: 2; // Default order
+      
+      .rtl-tabs ~ & {
+        order: 2; // After tabs in RTL
+      }
+      
+      .ltr-tabs ~ & {
+        order: 1; // Before tabs in LTR
+      }
+    }
+
+    .summary-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+
+      .summary-label {
+        font-size: 12px;
+        color: #666;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .summary-value {
+        font-size: 18px;
+        font-weight: 700;
+        color: black;
+      }
+    }
+
+    .summary-separator {
+      color: #666;
+      font-size: 16px;
+      opacity: 0.6;
+    }
+
+    .summary-total {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      background: black;
+      color: white;
+      border-radius: 20px;
+      font-weight: 600;
+
+      .total-label {
+        font-size: 14px;
+      }
+
+      .total-value {
+        font-size: 16px;
+        font-weight: 700;
+      }
+    }
+
+    // Mobile responsive layout for footer
+    @media (max-width: 768px) {
+      flex-direction: column;
+      gap: 12px;
+      align-items: center;
+      
+      .calendar-tabs.footer-tabs {
+        order: 1 !important; // Always first on mobile
+        justify-content: center;
+      }
+      
+      .summary-items {
+        order: 2 !important; // Always second on mobile
+        justify-content: center;
+      }
+    }
+  }
+
+  @media (max-width: 768px) {
+    padding: 16px;
+
+    .summary-content {
+      gap: 12px;
+
+      .summary-item {
+        .summary-value {
+          font-size: 16px;
+        }
+      }
+
+      .summary-total {
+        .total-value {
+          font-size: 14px;
+        }
+      }
+    }
+  }
+}
+
+// Selection Instructions
+.selection-instructions {
+  padding: 16px 24px;
+  background: #f5f5f5;
+  border-top: 1px solid #e0e0e0;
+
+  .instruction-text {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    color: #666;
+    font-size: 14px;
+    font-weight: 500;
+
+    mat-icon {
+      font-size: 18px;
+      width: 18px;
+      height: 18px;
+    }
+  }
+}
+
+// RTL Specific Styles
+.calendar-overlay.rtl {
+  .calendars-container {
+    .right-calendar {
+      order: 1;
+    }
+
+    .left-calendar {
+      order: 2;
+    }
+  }
+
+  .month-nav {
+    .month-titles {
+      .month-title {
+        &.right-month {
+          text-align: left;
+        }
+
+        &.left-month {
+          text-align: right;
+        }
+      }
+    }
+  }
+
+  .calendar-days {
+    .calendar-day {
+      // Range start styling for RTL
+      &.range-start::before {
+        left: 0;
+        right: 50%;
+      }
+
+      // Range end styling for RTL
+      &.range-end::before {
+        left: 50%;
+        right: 0;
+      }
+    }
+  }
+}
+
+// Dark Theme Support
+:host-context(.dark-theme) {
+  .calendar-container {
+    background: #263238;
+    box-shadow: 0 24px 48px rgba(0, 0, 0, 0.4);
+
+    // Dark theme for inline container
+    &.inline-container {
+      background: #263238;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+      border-color: #546e7a;
+    }
+  }
+
+  .calendar-header {
+    background: #37474f;
+    border-bottom-color: #546e7a;
+
+    .calendar-tabs {
+      background: #263238;
+
+      .tab-button {
+        color: #b0bec5;
+
+        &:hover {
+          background: #37474f;
+          color: #fff;
+        }
+
+        &.active {
+          background: white;
+          color: black;
+        }
+      }
+    }
+
+    .close-button {
+      color: #b0bec5;
+
+      &:hover {
+        background: #37474f;
+        color: #fff;
+      }
+    }
+  }
+
+  .month-nav {
+    background: #263238;
+    border-bottom-color: #546e7a;
+
+    .nav-button {
+      background: #263238;
+      border-color: #546e7a;
+      color: white;
+
+      &:hover {
+        background: #37474f;
+      }
+    }
+
+    .month-titles {
+      .month-title {
+        color: white;
+      }
+    }
+  }
+
+  .calendar-section {
+    .calendar-title {
+      background: #37474f;
+      color: white;
+    }
+  }
+
+  .calendar-grid {
+    background: #263238;
+
+    .day-names {
+      background: #37474f;
+
+      .day-name {
+        color: #b0bec5;
+      }
+    }
+
+    .calendar-days {
+      .calendar-day {
+        color: #fff;
+
+        // Range background strip for dark mode
+        &.in-range::before {
+          background: #546e7a;
+        }
+
+        &.range-start::before {
+          background: #546e7a;
+        }
+
+        &.range-end::before {
+          background: #546e7a;
+        }
+
+        &:hover:not(.disabled) {
+          background: #37474f;
+        }
+
+        &.other-month {
+          color: #78909c;
+        }
+
+        &.today {
+          .day-number {
+            border-color: #b0bec5;
+            color: #fff;
+          }
+        }
+
+        &.selected:not(.check-in):not(.check-out) {
+          .day-number {
+            background: #263238;
+            border-color: white;
+            color: white;
+          }
+        }
+
+        &.check-in,
+        &.check-out {
+          .day-number {
+            background: white;
+            color: black;
+          }
+        }
+      }
+    }
+  }
+
+  .date-summary {
+    background: #37474f;
+    border-top-color: #546e7a;
+
+    .summary-content {
+      .summary-item {
+        .summary-label {
+          color: #b0bec5;
+        }
+
+        .summary-value {
+          color: white;
+        }
+      }
+
+      .summary-separator {
+        color: #b0bec5;
+      }
+
+      .summary-total {
+        background: white;
+        color: black;
+      }
+    }
+  }
+
+  .selection-instructions {
+    background: #37474f;
+    border-top-color: #546e7a;
+
+    .instruction-text {
+      color: #b0bec5;
+    }
+  }
+}
+
+// Animation for overlay appearance
+.calendar-overlay {
+  animation: overlayFadeIn 0.3s ease-out;
+}
+
+.calendar-backdrop {
+  animation: backdropFadeIn 0.3s ease-out;
+}
+
+@keyframes overlayFadeIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+@keyframes backdropFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+// Dark theme support for footer tabs
+:host-context(.dark-theme) {
+  .date-summary {
+    background: var(--mat-sys-surface-container, #2c2c2c);
+    color: var(--mat-sys-on-surface, #ffffff);
+    
+    .summary-content {
+      .calendar-tabs.footer-tabs {
+        .tab-button {
+          background: var(--mat-sys-surface-variant, #37474f);
+          color: var(--mat-sys-on-surface-variant, #b0bec5);
+          border-color: var(--mat-sys-outline-variant, #546e7a);
+
+          &:hover {
+            background: var(--mat-sys-surface, #455a64);
+            border-color: var(--mat-sys-outline, #78909c);
+          }
+
+          &.active {
+            background: var(--mat-sys-primary, #2c2c2c);
+            color: var(--mat-sys-on-primary, #ffffff);
+            border-color: var(--mat-sys-primary, #2c2c2c);
+          }
+        }
+      }
+
+      .summary-item {
+        .summary-label {
+          color: var(--mat-sys-on-surface-variant, #b0bec5);
+        }
+
+        .summary-value {
+          color: var(--mat-sys-on-surface, #ffffff);
+        }
+      }
+
+      .summary-separator {
+        color: var(--mat-sys-on-surface-variant, #b0bec5);
+      }
+
+      .summary-total {
+        background: var(--mat-sys-primary, #2c2c2c);
+        color: var(--mat-sys-on-primary, #ffffff);
+      }
+    }
+  }
+
+  // Floating close button dark theme
+  .close-button.floating-close {
+    background: var(--mat-sys-surface-container, #2c2c2c);
+    color: var(--mat-sys-on-surface, #ffffff);
+    border: 1px solid var(--mat-sys-outline-variant, #546e7a);
+
+    &:hover {
+      background: var(--mat-sys-surface-variant, #37474f);
+      color: var(--mat-sys-on-surface-variant, #b0bec5);
+    }
+  }
+}

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>اختبار التقويم</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            direction: rtl;
+            text-align: right;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .test-info {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .test-info h2 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+        .test-info ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .test-info li {
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .test-info li:last-child {
+            border-bottom: none;
+        }
+        .status {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .status.fixed {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        .status.improved {
+            background-color: #cce5ff;
+            color: #004085;
+        }
+        .link {
+            display: inline-block;
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 15px;
+        }
+        .link:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-info">
+        <h2>🎉 تم إصلاح جميع مشاكل التقويم بنجاح!</h2>
+        
+        <h3>المشاكل التي تم حلها:</h3>
+        <ul>
+            <li>
+                <span class="status fixed">تم الإصلاح</span>
+                <strong>مشكلة عدم ظهور الجمعة:</strong> تم تحسين حساب الأسابيع لضمان عرض 42 يوماً (6 أسابيع) دائماً
+            </li>
+            <li>
+                <span class="status fixed">تم الإصلاح</span>
+                <strong>مشكلة التاريخ الهجري الخاطئ:</strong> تم إصلاح استخدام moment-hijri وإضافة 1 للشهر (كان 0-based)
+            </li>
+            <li>
+                <span class="status fixed">تم الإصلاح</span>
+                <strong>عدم منع التواريخ السابقة:</strong> تم تحسين minDate ليكون اليوم الحالي كحد أدنى
+            </li>
+            <li>
+                <span class="status fixed">تم الإصلاح</span>
+                <strong>مشكلة حجم التقويم وقطع عمود الجمعة:</strong> تم زيادة جميع الأحجام وإزالة قيود العرض
+            </li>
+            <li>
+                <span class="status fixed">تم الإصلاح</span>
+                <strong>أخطاء TypeScript في moment-hijri:</strong> تم إصلاح استيراد المكتبة واستخدام الطرق الصحيحة
+            </li>
+        </ul>
+
+        <h3>التحسينات الإضافية:</h3>
+        <ul>
+            <li>
+                <span class="status improved">محسن</span>
+                تحسين مقارنة التواريخ بإزالة الوقت للحصول على مقارنة دقيقة
+            </li>
+            <li>
+                <span class="status improved">محسن</span>
+                إضافة معالجة أخطاء أفضل لتنسيق التاريخ الهجري
+            </li>
+            <li>
+                <span class="status improved">محسن</span>
+                ضمان عرض التقويم بشكل ثابت (42 يوماً دائماً)
+            </li>
+            <li>
+                <span class="status improved">محسن</span>
+                تكوين moment-hijri للعمل باللغة العربية
+            </li>
+        </ul>
+
+        <h3>التحسينات الجديدة لحجم التقويم:</h3>
+        <ul>
+            <li>
+                <span class="status improved">محسن</span>
+                زيادة الحد الأدنى لعرض التقويم إلى 900px (كان 800px)
+            </li>
+            <li>
+                <span class="status improved">محسن</span>
+                زيادة الحد الأدنى لعرض كل قسم تقويم إلى 300px
+            </li>
+            <li>
+                <span class="status improved">محسن</span>
+                تحسين ارتفاع الشبكة إلى 270px لضمان عرض 6 أسابيع كاملة
+            </li>
+            <li>
+                <span class="status improved">محسن</span>
+                إضافة حد أدنى لعرض وارتفاع كل يوم (35px)
+            </li>
+            <li>
+                <span class="status fixed">تم الإصلاح</span>
+                تغيير overflow من hidden إلى visible لمنع قطع المحتوى
+            </li>
+        </ul>
+
+        <h3>كيفية الاختبار:</h3>
+        <ol>
+            <li>افتح التطبيق على <a href="http://localhost:4200" class="link">http://localhost:4200</a></li>
+            <li>ابحث عن مكون اختيار التاريخ</li>
+            <li><strong>تحقق من ظهور جميع أيام الأسبوع كاملة (السبت إلى الجمعة)</strong></li>
+            <li>تحقق من أن يوم الجمعة يظهر بالكامل وليس مقطوعاً</li>
+            <li>تحقق من صحة التاريخ الهجري المعروض</li>
+            <li>حاول اختيار تاريخ سابق - يجب أن يكون معطلاً</li>
+            <li>اختبر التقويم على شاشات مختلفة الأحجام</li>
+        </ol>
+
+        <a href="http://localhost:4200" class="link">🚀 افتح التطبيق الآن</a>
+    </div>
+
+    <script>
+        // تحديث الوقت كل ثانية
+        function updateTime() {
+            const now = new Date();
+            const hijriDate = new Intl.DateTimeFormat('ar-SA-u-ca-islamic', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            }).format(now);
+            
+            console.log('التاريخ الحالي (ميلادي):', now.toLocaleDateString('ar-EG'));
+            console.log('التاريخ الحالي (هجري):', hijriDate);
+        }
+        
+        updateTime();
+        setInterval(updateTime, 60000); // كل دقيقة
+    </script>
+</body>
+</html>

@@ -1,0 +1,4259 @@
+@use '../../../assets/scss/variables' as *;
+
+// Theme-aware host context selectors
+:host-context(.light-theme) {
+  .search-box-shadow {
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+  }
+}
+
+
+:host-context(.dark-theme) {
+  .search-box-shadow {
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  }
+
+  .guest-dropdown {
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.4);
+  }
+
+  // Dark theme support for main search fields
+  .almosafer-search-container {
+    background: var(--mat-sys-surface-container);
+
+    .search-bar {
+      background: var(--mat-sys-surface);
+      border-color: var(--mat-sys-outline-variant);
+    }
+  }
+
+  // Location field dark theme
+  .location-field .mat-mdc-form-field {
+    .mat-mdc-text-field-wrapper {
+      background-color: var(--mat-sys-surface-container);
+      border-color: var(--mat-sys-outline-variant);
+
+      &:hover {
+        border-color: var(--mat-sys-primary);
+      }
+
+      &:focus-within {
+        border-color: var(--mat-sys-primary);
+        box-shadow: 0 0 0 2px rgba(var(--mat-sys-primary-rgb), 0.1);
+      }
+    }
+
+    .mat-mdc-floating-label {
+      color: var(--mat-sys-on-surface-variant);
+    }
+
+    &.mat-focused .mat-mdc-floating-label {
+      color: var(--mat-sys-primary);
+    }
+
+    input[matInput] {
+      color: var(--mat-sys-on-surface);
+    }
+
+    mat-icon {
+      color: var(--mat-sys-on-surface-variant);
+    }
+  }
+
+  // Date range field dark theme
+  .date-range-field .mat-mdc-form-field {
+    .mat-mdc-text-field-wrapper {
+      background-color: var(--mat-sys-surface-container);
+      border-color: var(--mat-sys-outline-variant);
+
+      &:hover {
+        border-color: var(--mat-sys-primary);
+      }
+
+      &:focus-within {
+        border-color: var(--mat-sys-primary);
+        box-shadow: 0 0 0 2px rgba(var(--mat-sys-primary-rgb), 0.1);
+      }
+    }
+
+    .mat-mdc-floating-label {
+      color: var(--mat-sys-on-surface-variant);
+    }
+
+    &.mat-focused .mat-mdc-floating-label {
+      color: var(--mat-sys-primary);
+    }
+
+    input[matInput] {
+      color: var(--mat-sys-on-surface);
+    }
+
+    mat-icon {
+      color: var(--mat-sys-on-surface-variant);
+    }
+
+    .date-range-display-overlay {
+      .date-range-text,
+      .nights-text {
+        color: var(--mat-sys-on-surface);
+      }
+
+      .nights-separator {
+        color: var(--mat-sys-on-surface-variant);
+      }
+    }
+  }
+
+  // Guest field dark theme
+  .guest-field .mat-mdc-form-field {
+    .mat-mdc-text-field-wrapper {
+      background-color: var(--mat-sys-surface-container);
+      border-color: var(--mat-sys-outline-variant);
+
+      &:hover {
+        border-color: var(--mat-sys-primary);
+      }
+
+      &:focus-within {
+        border-color: var(--mat-sys-primary);
+        box-shadow: 0 0 0 2px rgba(var(--mat-sys-primary-rgb), 0.1);
+      }
+    }
+
+    .mat-mdc-floating-label {
+      color: var(--mat-sys-on-surface-variant);
+    }
+
+    &.mat-focused .mat-mdc-floating-label {
+      color: var(--mat-sys-primary);
+    }
+
+    input[matInput] {
+      color: var(--mat-sys-on-surface);
+
+      &.active {
+        color: var(--mat-sys-primary);
+      }
+    }
+
+    mat-icon {
+      color: var(--mat-sys-on-surface-variant);
+    }
+  }
+
+  // Search button dark theme
+  .search-button-field .search-btn {
+    background: var(--mat-sys-primary);
+    color: var(--mat-sys-on-primary);
+    border-color: var(--mat-sys-outline-variant);
+
+    &:hover:not(:disabled) {
+      background: var(--mat-sys-primary);
+      border-color: var(--mat-sys-primary);
+      box-shadow: 0 0 0 2px rgba(var(--mat-sys-primary-rgb), 0.1);
+    }
+
+    &:disabled,
+    &.disabled-search {
+      background: var(--mat-sys-surface-variant);
+      color: var(--mat-sys-on-surface-variant);
+      border-color: var(--mat-sys-outline-variant);
+    }
+
+    mat-icon {
+      color: var(--mat-sys-on-primary);
+    }
+  }
+
+  // Dark theme styling for bed types section
+  .bed-types-section {
+    .bed-types-title {
+      color: #fff !important; // White title for "أنواع الأسرة"
+      font-weight: 600;
+
+      mat-icon {
+        color: #4caf50 !important; // Keep the green bed icon for visual appeal
+        margin-right: 8px;
+      }
+
+      .bed-count-info {
+        color: #b0bec5 !important; // Light gray for count info
+        font-weight: 400;
+      }
+    }
+
+    .bed-type-options {
+      .bed-type-option {
+        background-color: #263238 !important; // Dark card/container color
+        color: #fff !important;
+        border: 1px solid #37474f !important; // Subtle border
+        border-radius: 8px;
+        transition: all 0.3s ease;
+
+        &.selected {
+          background-color: #2c2c2c !important; // Strong primary blue
+          color: #fff !important;
+          border-color: #2c2c2c !important;
+          box-shadow: 0 2px 8px rgba(25, 118, 210, 0.3) !important; // Subtle glow
+        }
+
+        &:hover:not(.selected) {
+          background-color: #37474f !important; // Lighter on hover
+          border-color: #546e7a !important;
+        }
+
+        // Material checkbox styling for dark theme
+        ::ng-deep .mat-mdc-checkbox {
+          .mdc-checkbox__native-control:enabled:not(:checked):not(:indeterminate):not([data-indeterminate=true]) ~ .mdc-checkbox__background {
+            border-color: #546e7a !important;
+            background-color: transparent !important;
+          }
+
+          .mdc-checkbox__native-control:enabled:checked ~ .mdc-checkbox__background,
+          .mdc-checkbox__native-control:enabled:indeterminate ~ .mdc-checkbox__background {
+            background-color: #2c2c2c !important;
+            border-color: #2c2c2c !important;
+          }
+
+          .mdc-form-field > label {
+            color: #fff !important;
+            font-weight: 500;
+          }
+
+          // Improve checkbox visibility
+          .mdc-checkbox__checkmark {
+            color: #fff !important;
+          }
+        }
+
+        .bed-quantity {
+          background: rgba(25, 118, 210, 0.1) !important;
+
+          .quantity-btn {
+            background-color: #37474f !important;
+            color: #fff !important;
+            border: 1px solid #546e7a !important;
+            border-radius: 50% !important;
+            width: 2rem !important;
+            height: 2rem !important;
+            min-width: 2rem !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+
+            mat-icon {
+              color: #fff !important;
+              font-size: 1rem !important;
+              width: 1rem !important;
+              height: 1rem !important;
+            }
+
+            &:hover:not(:disabled) {
+              background-color: #2c2c2c !important;
+              border-color: #2c2c2c !important;
+              color: white !important;
+              transform: scale(1.05) !important;
+
+              mat-icon {
+                color: white !important;
+              }
+            }
+
+            &:disabled {
+              opacity: 0.4 !important;
+              background-color: #263238 !important;
+              border-color: #37474f !important;
+              color: #78909c !important;
+              transform: none !important;
+
+              mat-icon {
+                color: #78909c !important;
+              }
+            }
+          }
+
+          .quantity-value {
+            color: #2c2c2c !important;
+            background: #37474f !important;
+            border: 1px solid rgba(25, 118, 210, 0.3) !important;
+            font-weight: 600;
+            min-width: 1.5rem;
+            text-align: center;
+            border-radius: 4px;
+            padding: 0.25rem 0.5rem;
+          }
+        }
+      }
+    }
+
+    .more-options-btn {
+      background-color: #263238 !important;
+      color: #b0bec5 !important;
+      border: 1px solid #37474f !important;
+      border-radius: 8px;
+
+      &:hover {
+        background-color: #37474f !important;
+        border-color: #2c2c2c !important;
+        color: #2c2c2c !important;
+      }
+
+      mat-icon {
+        color: inherit !important;
+      }
+    }
+
+    .bed-warning {
+      background-color: #263238 !important;
+      border-color: #ff9800 !important;
+      color: #ffb74d !important;
+      border-radius: 8px;
+
+      mat-icon {
+        color: #ff9800 !important;
+      }
+    }
+  }
+}
+
+// RTL Support - Almosafer.com style
+:host-context([dir="rtl"]) {
+  .search-bar {
+    direction: rtl;
+    flex-direction: row-reverse;
+
+    // Search button on the left for RTL
+    .search-button-field {
+      order: -1;
+
+      .search-btn {
+        border-radius: 12px;
+        border-color: var(--mat-sys-outline-variant, #e0e0e0);
+      }
+    }
+
+    // All fields maintain their complete borders and rounded corners in RTL
+    .guest-field .mat-mdc-form-field .mat-mdc-text-field-wrapper,
+    .date-range-field .mat-mdc-form-field .mat-mdc-text-field-wrapper,
+    .location-field .mat-mdc-form-field .mat-mdc-text-field-wrapper {
+      border-radius: 12px;
+      border-color: var(--mat-sys-outline-variant, #e0e0e0);
+    }
+  }
+
+
+
+  .guest-dropdown {
+    left: 20px;
+    right: 20px;
+  }
+
+  .quick-fill-btn mat-icon,
+  .more-options-btn mat-icon,
+  .room-title mat-icon,
+  .panel-title mat-icon {
+    margin-right: 0;
+    margin-left: 8px;
+  }
+
+  .guest-selector .mat-mdc-select-value mat-icon {
+    margin-right: 0;
+    margin-left: 8px;
+  }
+
+  .counter-controls {
+    flex-direction: row-reverse;
+  }
+
+  .search-btn mat-icon {
+    margin-right: 0;
+    margin-left: 8px;
+  }
+}
+
+// Main container - Almosafer.com style
+.almosafer-search-container {
+  position: relative;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px;
+  background: var(--mat-sys-surface-bright, #f8f9fa);
+  border-radius: 16px;
+  overflow: visible;
+
+  // Ensure popup positioning context
+  .search-bar {
+    position: relative;
+  }
+
+  // Clean modern styling like Almosafer.com
+  .search-form {
+    width: 100%;
+  }
+
+  @media (max-width: 768px) {
+    padding: 16px;
+    margin: 10px;
+    border-radius: 12px;
+  }
+}
+
+// Search bar layout - Almosafer.com style horizontal row - UNIFIED HEIGHT
+.search-bar {
+  display: flex;
+  align-items: stretch; // Changed from center to stretch for consistent height
+  gap: 12px;
+  height: 76px; // Fixed height for search-bar (60px + 16px padding)
+  background: var(--mat-sys-surface, white);
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  overflow: visible; // CRITICAL: Allow popup to show outside container
+  position: relative; // Enable popup positioning
+  padding: 8px;
+  border: 1px solid var(--mat-sys-outline-variant, #e0e0e0);
+  box-sizing: border-box;
+
+  // RTL support - search button on the left for Arabic
+  :host-context([dir="rtl"]) & {
+    flex-direction: row-reverse;
+
+    .search-button-field {
+      order: -1; // Move search button to the left in RTL
+    }
+  }
+
+  @media (max-width: 1024px) {
+    gap: 8px;
+    padding: 6px;
+  }
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    gap: 12px;
+    padding: 12px;
+    height: auto; // Allow height to grow with stacked fields
+
+    // Ensure fields maintain height in mobile
+    .search-field {
+      height: 60px !important;
+      min-height: 60px !important;
+      max-height: 60px !important;
+    }
+
+    // Reset RTL order for mobile
+    :host-context([dir="rtl"]) & {
+      flex-direction: column;
+
+      .search-button-field {
+        order: unset;
+      }
+    }
+  }
+}
+
+// Almosafer.com style search fields - UNIFIED HEIGHT
+.search-field {
+  position: relative;
+  flex: 1;
+  height: 60px !important; // Fixed height for ALL fields
+  min-height: 60px !important; // Consistent minimum
+  max-height: 60px !important; // Prevent expansion
+  display: flex;
+  align-items: stretch;
+  box-sizing: border-box; // Consistent box model
+
+  // Ensure all mat-form-field have consistent height
+  .mat-mdc-form-field {
+    height: 60px !important;
+    min-height: 60px !important;
+    max-height: 60px !important;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  // Force all direct children to same height
+  > * {
+    height: 60px !important;
+    min-height: 60px !important;
+    max-height: 60px !important;
+    box-sizing: border-box;
+  }
+
+  // Location field - now third position
+  &.location-field {
+    flex: 2;
+    min-width: 200px;
+
+    .mat-mdc-form-field {
+      width: 100%;
+
+      .mat-mdc-text-field-wrapper {
+        background-color: var(--mat-sys-surface, white);
+        border: 1px solid var(--mat-sys-outline-variant, #e0e0e0);
+        border-radius: 12px;
+        height: 60px; // Fixed height to match search-field
+        min-height: 60px;
+        max-height: 60px;
+        transition: all 0.2s ease;
+
+        &:hover {
+          border-color: var(--mat-sys-primary, #2c2c2c);
+        }
+
+        &:focus-within {
+          border-color: var(--mat-sys-primary, #2c2c2c);
+          box-shadow: 0 0 0 2px rgba(var(--mat-sys-primary-rgb, 25, 118, 210), 0.1);
+        }
+      }
+
+      .mat-mdc-form-field-infix {
+        padding: 12px 12px; // Reduced padding for better height consistency
+        min-height: 24px;
+      }
+
+      .mat-mdc-floating-label {
+        font-size: 14px;
+        color: var(--mat-sys-on-surface-variant, #666);
+        font-weight: 500;
+      }
+
+      &.mat-focused .mat-mdc-floating-label {
+        color: var(--mat-sys-primary, #2c2c2c);
+      }
+
+      input[matInput] {
+        color: var(--mat-sys-on-surface, #333);
+      }
+
+      mat-icon {
+        color: var(--mat-sys-on-surface-variant, #666);
+      }
+    }
+  }
+
+  // Date range field - CRITICAL: Enable calendar popup positioning
+  &.date-range-field {
+    flex: 1.5;
+    min-width: 180px;
+    position: relative; // CRITICAL: Enable absolute positioning for calendar popup
+
+    .mat-mdc-form-field {
+      width: 100%;
+
+      .mat-mdc-text-field-wrapper {
+        background-color: var(--mat-sys-surface, white);
+        border: 1px solid var(--mat-sys-outline-variant, #e0e0e0);
+        border-radius: 12px;
+        height: 60px; // Fixed height to match search-field
+        min-height: 60px;
+        max-height: 60px;
+        transition: all 0.2s ease;
+
+        &:hover {
+          border-color: var(--mat-sys-primary, #2c2c2c);
+        }
+
+        &:focus-within {
+          border-color: var(--mat-sys-primary, #2c2c2c);
+          box-shadow: 0 0 0 2px rgba(var(--mat-sys-primary-rgb, 25, 118, 210), 0.1);
+        }
+      }
+
+      .mat-mdc-form-field-infix {
+        padding: 12px 12px; // Reduced padding for better height consistency
+        min-height: 24px;
+      }
+
+      .mat-mdc-floating-label {
+        font-size: 14px;
+        color: var(--mat-sys-on-surface-variant, #666);
+        font-weight: 500;
+      }
+
+      &.mat-focused .mat-mdc-floating-label {
+        color: var(--mat-sys-primary, #2c2c2c);
+      }
+
+      input[matInput] {
+        color: var(--mat-sys-on-surface, #333);
+      }
+
+      mat-icon {
+        color: var(--mat-sys-on-surface-variant, #666);
+      }
+
+      .date-range-display-overlay {
+        .date-range-text,
+        .nights-text {
+          color: var(--mat-sys-on-surface, #333);
+        }
+
+        .nights-separator {
+          color: var(--mat-sys-on-surface-variant, #666);
+        }
+      }
+    }
+  }
+
+  // Guest field - Almosafer style with popup positioning
+  &.guest-field {
+    flex: 1.2;
+    min-width: 180px;
+    position: relative; // CRITICAL: Enable popup positioning
+
+    .mat-mdc-form-field {
+      width: 100%;
+
+      .mat-mdc-text-field-wrapper {
+        background-color: white;
+        border: 2px solid #e8e8e8;
+        border-radius: 12px;
+        height: 60px; // Fixed height to match search-field
+        min-height: 60px;
+        max-height: 60px;
+        transition: all 0.2s ease;
+
+        &:hover {
+          border-color: #2c2c2c;
+          background: #fafbff;
+          transform: translateY(-1px);
+          box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        &:focus-within {
+          border-color: #2c2c2c;
+          background: #f0f8ff;
+          box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
+        }
+      }
+
+      .mat-mdc-form-field-infix {
+        padding: 12px 16px; // Reduced top/bottom padding for consistent height
+        min-height: 24px;
+      }
+
+      .mat-mdc-floating-label {
+        font-size: 13px;
+        color: #666;
+        font-weight: 600;
+        font-family: 'Noto Kufi Arabic', 'Google Sans', sans-serif;
+      }
+
+      &.mat-focused .mat-mdc-floating-label {
+        color: #2c2c2c;
+      }
+
+      // Guest input specific styling
+      input[matInput] {
+        cursor: pointer;
+        font-size: 15px;
+        font-weight: 700;
+        color: #1a1a1a;
+        font-family: 'Noto Kufi Arabic', 'Google Sans', sans-serif;
+
+        &.active {
+          color: #2c2c2c;
+        }
+      }
+
+      mat-icon {
+        color: #2c2c2c;
+        font-size: 22px;
+        // Remove transform transition - keep icon stable
+      }
+    }
+  }
+
+  // Search button - Almosafer.com red style, fixed width, left-aligned
+  &.search-button-field {
+    flex: 0 0 auto;
+    min-width: 120px;
+
+    .search-btn {
+      width: 100%;
+      height: 60px; // Fixed height to match all other fields
+      background: var(--mat-sys-error, #dc3545);
+      color: var(--mat-sys-on-error, white);
+      border: 1px solid var(--mat-sys-outline-variant, #e0e0e0);
+      border-radius: 12px;
+      padding: 0 20px;
+      font-size: 16px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+
+      &:hover:not(:disabled) {
+        background: var(--mat-sys-error, #c82333);
+        border-color: var(--mat-sys-primary, #2c2c2c);
+        transform: translateY(-1px);
+        box-shadow: 0 0 0 2px rgba(var(--mat-sys-primary-rgb, 25, 118, 210), 0.1);
+      }
+
+      &:active {
+        transform: translateY(0);
+      }
+
+      // Disabled state
+      &:disabled,
+      &.disabled-search {
+        background: var(--mat-sys-surface-variant, #e0e0e0);
+        color: var(--mat-sys-on-surface-variant, #9e9e9e);
+        border: 1px solid var(--mat-sys-outline-variant, #e0e0e0);
+        cursor: not-allowed;
+        transform: none;
+        box-shadow: none;
+
+        &:hover {
+          background: var(--mat-sys-surface-variant, #e0e0e0);
+          border: 1px solid var(--mat-sys-outline-variant, #e0e0e0);
+          transform: none;
+          box-shadow: none;
+        }
+      }
+
+      mat-icon {
+        font-size: 18px;
+        width: 18px;
+        height: 18px;
+        color: var(--mat-sys-on-error, white);
+      }
+    }
+  }
+
+  // Mobile responsive adjustments
+  @media (max-width: 768px) {
+    flex: none;
+    width: 100%;
+    min-width: 0;
+
+    &.location-field .mat-mdc-form-field .mat-mdc-text-field-wrapper,
+    &.date-range-field .mat-mdc-form-field .mat-mdc-text-field-wrapper,
+    &.guest-field .mat-mdc-form-field .mat-mdc-text-field-wrapper {
+      border-radius: 12px;
+      border: 1px solid var(--mat-sys-outline-variant, #e0e0e0);
+    }
+
+    &.search-button-field {
+      margin-top: 8px;
+
+      .search-btn {
+        border-radius: 12px;
+        width: 100%;
+      }
+    }
+  }
+}
+
+.full-width {
+  width: 100%;
+}
+
+// Guest selector styling
+.guest-selector {
+  .mat-mdc-select-value {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    mat-icon {
+      color: #ff9800;
+      font-size: 18px;
+    }
+  }
+}
+
+// Mat-option styling for guest selector
+::ng-deep .mat-mdc-option {
+  &.guest-option {
+    .mat-mdc-option-text {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+
+      mat-icon {
+        font-size: 18px;
+
+        &[data-mat-icon-name="flash_on"] {
+          color: #ff9800;
+        }
+
+        &[data-mat-icon-name="settings"] {
+          color: var(--mat-sys-primary, #2c2c2c);
+        }
+      }
+    }
+  }
+}
+
+// Room configuration panel (replaces old dropdown)
+.room-configuration-panel {
+  margin-top: 20px;
+  background: var(--mat-sys-surface-container);
+  border-radius: var(--mat-sys-corner-medium);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--mat-sys-outline);
+  color: var(--mat-sys-on-background);
+  animation: slideDown 0.3s ease-out;
+
+  .panel-content {
+    padding: 24px;
+  }
+
+  .panel-header {
+    margin-bottom: 24px;
+
+    .panel-title {
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--mat-sys-on-background);
+      margin: 0;
+      display: flex;
+      align-items: center;
+
+      mat-icon {
+        margin-right: 12px;
+        color: var(--mat-sys-primary, #2c2c2c);
+        font-size: 24px;
+      }
+    }
+  }
+}
+
+// Quick fill section
+.quick-fill-section {
+  margin-bottom: 24px;
+
+  .section-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+    margin: 0 0 16px 0;
+    display: flex;
+    align-items: center;
+
+    mat-icon {
+      margin-right: 8px;
+      color: #2c2c2c;
+    }
+  }
+
+  .quick-fill-options {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+
+    .quick-fill-btn {
+      padding: 12px 20px;
+      border-radius: var(--mat-sys-corner-small);
+      border: 2px solid var(--mat-sys-outline);
+      background: var(--mat-sys-surface);
+      color: var(--mat-sys-on-background);
+      font-size: 14px;
+      transition: all 0.3s ease;
+
+      &:hover {
+        border-color: var(--mat-sys-primary, #2c2c2c);
+        background: var(--mat-option-hover-state-layer-color);
+        color: var(--mat-sys-primary, #2c2c2c);
+      }
+
+      mat-icon {
+        margin-right: 8px;
+        font-size: 18px;
+        color: #ff9800; // Keep the lightning icon orange for visual appeal
+      }
+    }
+  }
+}
+
+// More Options Toggle
+.more-options-toggle {
+  padding: 16px 0;
+  text-align: center;
+
+  .more-options-btn {
+    width: 100%;
+    padding: 12px 24px;
+    border: 1px dashed var(--mat-sys-outline);
+    border-radius: var(--mat-sys-corner-small);
+    color: var(--mat-sys-on-background);
+    background: var(--mat-sys-surface);
+    font-weight: 500;
+    transition: all 0.3s ease;
+
+    &:hover {
+      border-color: var(--mat-sys-primary, #2c2c2c);
+      color: var(--mat-sys-primary, #2c2c2c);
+      background: var(--mat-option-hover-state-layer-color);
+    }
+
+    mat-icon {
+      margin-right: 8px;
+      transition: transform 0.3s ease;
+    }
+  }
+}
+
+// Room configuration
+.rooms-configuration {
+  animation: slideDown 0.3s ease-out;
+
+  .room-config {
+    padding: 20px 0;
+    transition: all 0.3s ease;
+    animation: slideInUp 0.3s ease-out;
+
+    &.removing {
+      animation: slideOutDown 0.3s ease-in forwards;
+      opacity: 0;
+      transform: translateY(20px);
+    }
+
+    .room-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+
+      .room-title {
+        font-size: 18px;
+        font-weight: 600;
+        color: var(--mat-sys-on-background);
+        margin: 0;
+        display: flex;
+        align-items: center;
+
+        mat-icon {
+          margin-right: 8px;
+          color: var(--mat-sys-primary, #2c2c2c);
+        }
+      }
+
+      .remove-room-btn {
+        color: #f44336;
+        transition: all 0.2s ease;
+        border: 1px solid transparent;
+        border-radius: 50%;
+
+        &:hover:not(:disabled) {
+          background: rgba(244, 67, 54, 0.1);
+          border-color: rgba(244, 67, 54, 0.3);
+          transform: scale(1.1);
+          box-shadow: 0 2px 8px rgba(244, 67, 54, 0.2);
+        }
+
+        &:disabled {
+          opacity: 0.3;
+          cursor: not-allowed;
+        }
+
+        mat-icon {
+          font-size: 20px;
+          transition: all 0.2s ease;
+        }
+
+        &:hover:not(:disabled) mat-icon {
+          transform: rotate(5deg);
+        }
+      }
+    }
+
+    .guest-selectors {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-bottom: 24px;
+
+      @media (max-width: 480px) {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+
+      .guest-selector {
+        .selector-label {
+          display: block;
+          font-size: 15px;
+          font-weight: 600;
+          color: #1a1a1a;
+          margin-bottom: 12px;
+          font-family: 'Noto Kufi Arabic', 'Google Sans', sans-serif;
+        }
+
+        .counter-controls {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          background: #f8f9fa;
+          border: 2px solid #e8e8e8;
+          border-radius: 12px;
+          padding: 12px 16px;
+          height: 60px; // Fixed height to match search-field
+        min-height: 60px;
+        max-height: 60px;
+          transition: all 0.2s ease;
+
+          &:hover {
+            border-color: #2c2c2c;
+            background: #f0f8ff;
+          }
+
+          .counter-btn {
+            background: #2c2c2c;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-weight: 600;
+
+            &:hover:not(:disabled) {
+              background: #0052a3;
+              transform: scale(1.05);
+              box-shadow: 0 2px 8px rgba(0, 102, 204, 0.3);
+            }
+
+            &:disabled {
+              opacity: 0.4;
+              cursor: not-allowed;
+              transform: none;
+              background: #ccc;
+            }
+
+            mat-icon {
+              font-size: 20px;
+              font-weight: bold;
+            }
+          }
+
+          .counter-value {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1a1a1a;
+            min-width: 50px;
+            text-align: center;
+            font-family: 'Noto Kufi Arabic', 'Google Sans', sans-serif;
+          }
+        }
+      }
+    }
+
+    .children-ages {
+      margin-bottom: 24px;
+      padding: 20px;
+      background: #f0f8ff;
+      border-radius: 12px;
+      border: 2px solid #e0f2ff;
+
+      .ages-title {
+        font-size: 16px;
+        font-weight: 600;
+        color: #1a1a1a;
+        font-family: 'Noto Kufi Arabic', 'Google Sans', sans-serif;
+        margin: 0 0 16px 0;
+        display: flex;
+        align-items: center;
+
+        mat-icon {
+          margin-right: 8px;
+          color: #ff9800;
+          font-size: 18px;
+        }
+      }
+
+      .age-selectors {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        gap: 12px;
+
+        .age-field {
+          .mat-mdc-form-field-wrapper {
+            background: white;
+          }
+        }
+      }
+    }
+
+    .bed-types-section {
+      .bed-types-title {
+        font-size: 16px;
+        font-weight: 600;
+        color: #1a1a1a;
+        margin: 0 0 20px 0;
+        display: flex;
+        align-items: center;
+        font-family: 'Noto Kufi Arabic', 'Google Sans', sans-serif;
+
+        mat-icon {
+          margin-right: 12px;
+          color: #2c2c2c;
+          font-size: 22px;
+        }
+
+        .bed-count-info {
+          margin-left: auto;
+          font-size: 13px;
+          color: #666;
+          font-weight: 500;
+          background: #f0f8ff;
+          padding: 4px 12px;
+          border-radius: 20px;
+          border: 1px solid #e0f2ff;
+        }
+      }
+
+      .bed-type-options {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 16px;
+        margin-bottom: 20px;
+
+        .bed-type-option {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 18px;
+          border: 2px solid #e8e8e8;
+          border-radius: 12px;
+          background: white;
+          transition: all 0.2s ease;
+          min-height: 70px;
+          cursor: pointer;
+
+          &.selected {
+            border-color: #2c2c2c;
+            background: #f0f8ff;
+            box-shadow: 0 2px 12px rgba(0, 102, 204, 0.15);
+          }
+
+          &:hover:not(.selected) {
+            border-color: #2c2c2c;
+            background: #fafbff;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+          }
+
+          .bed-quantity {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-left: auto;
+            padding: 8px;
+            border-radius: 10px;
+            background: rgba(0, 102, 204, 0.08);
+
+            .quantity-btn {
+              width: 32px;
+              height: 32px;
+              min-width: 32px;
+              border: 2px solid #2c2c2c;
+              background: white;
+              border-radius: 8px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              transition: all 0.2s ease;
+              cursor: pointer;
+
+              &:hover:not(:disabled) {
+                background: #2c2c2c;
+                color: white;
+                transform: scale(1.05);
+                box-shadow: 0 2px 8px rgba(0, 102, 204, 0.3);
+
+                mat-icon {
+                  color: white;
+                }
+              }
+
+              &:disabled {
+                opacity: 0.4;
+                cursor: not-allowed;
+                transform: none;
+                background: #f5f5f5;
+                border-color: #ddd;
+              }
+
+              mat-icon {
+                font-size: 18px;
+                width: 18px;
+                height: 18px;
+                font-weight: bold;
+              }
+            }
+
+            .quantity-value {
+              font-size: 16px;
+              font-weight: 700;
+              min-width: 24px;
+              text-align: center;
+              color: #2c2c2c;
+              background: white;
+              border-radius: 6px;
+              padding: 4px 8px;
+              border: 2px solid rgba(0, 102, 204, 0.2);
+              font-family: 'Noto Kufi Arabic', 'Google Sans', sans-serif;
+            }
+          }
+        }
+      }
+
+      .more-options-btn {
+        background: transparent;
+        color: #2c2c2c;
+        border: 2px solid #2c2c2c;
+        border-radius: 10px;
+        padding: 12px 20px;
+        font-weight: 600;
+        font-size: 14px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: 16px;
+        font-family: 'Noto Kufi Arabic', 'Google Sans', sans-serif;
+
+        &:hover {
+          background: #2c2c2c;
+          color: white;
+          transform: translateY(-1px);
+          box-shadow: 0 4px 12px rgba(0, 102, 204, 0.3);
+        }
+
+        mat-icon {
+          font-size: 18px;
+        }
+      }
+
+      .bed-warning {
+        background: #fff3cd;
+        border: 2px solid #ffc107;
+        color: #856404;
+        padding: 12px 16px;
+        border-radius: 10px;
+        margin-top: 16px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-weight: 500;
+        font-family: 'Noto Kufi Arabic', 'Google Sans', sans-serif;
+
+        mat-icon {
+          color: #ffc107;
+          font-size: 20px;
+        }
+      }
+    }
+  }
+}
+
+// Add room section
+.add-room-section {
+  padding: 20px 0;
+  text-align: center;
+
+  .add-room-btn {
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-weight: 500;
+
+    mat-icon {
+      margin-right: 8px;
+    }
+  }
+}
+
+// Dropdown actions with theme support
+.dropdown-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding-top: 20px;
+  border-top: 1px solid var(--mat-sys-outline);
+
+  .cancel-btn {
+    padding: 12px 24px;
+    color: var(--mat-sys-on-background);
+    opacity: 0.7;
+
+    &:hover {
+      background: var(--mat-option-hover-state-layer-color);
+    }
+  }
+
+  .apply-btn {
+    padding: 12px 24px;
+    font-weight: 600;
+  }
+}
+
+// Panel actions with theme support (for room configuration panel)
+.panel-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding-top: 20px;
+  border-top: 1px solid var(--mat-sys-outline);
+
+  .cancel-btn {
+    padding: 12px 24px;
+    color: var(--mat-sys-on-background);
+    opacity: 0.7;
+
+    &:hover {
+      background: var(--mat-option-hover-state-layer-color);
+    }
+  }
+
+  .apply-btn {
+    padding: 12px 24px;
+    font-weight: 600;
+  }
+}
+
+// Backdrop
+.dropdown-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.3);
+  z-index: 999;
+}
+
+// Animations
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Material form field customizations - Almosafer.com style
+.mat-mdc-form-field {
+  width: 100%;
+
+  // Remove default Material Design styling
+  .mdc-notched-outline {
+    display: none;
+  }
+
+  .mat-mdc-form-field-subscript-wrapper {
+    display: none;
+  }
+
+  .mat-mdc-form-field-bottom-align::before {
+    display: none;
+  }
+
+  .mat-mdc-text-field-wrapper {
+    padding: 0;
+    height: 56px;
+    display: flex;
+    align-items: center;
+  }
+
+  .mat-mdc-form-field-flex {
+    height: 100%;
+    align-items: center;
+    padding: 0;
+  }
+
+  .mat-mdc-form-field-infix {
+    border: none;
+    padding: 0 12px;
+    min-height: auto;
+    width: auto;
+    flex: 1;
+  }
+
+  .mat-mdc-input-element {
+    height: auto;
+    padding: 0;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #333;
+    background: transparent;
+    border: none;
+    outline: none;
+
+    &::placeholder {
+      color: #999;
+      opacity: 1;
+    }
+  }
+
+  .mat-mdc-floating-label {
+    position: absolute;
+    top: 50%;
+    left: 12px;
+    transform: translateY(-50%);
+    font-size: 14px;
+    color: #666;
+    font-weight: 500;
+    pointer-events: none;
+    transition: all 0.2s ease;
+    background: transparent;
+    padding: 0;
+    max-width: calc(100% - 24px);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &.mat-form-field-has-label.mat-form-field-can-float.mat-form-field-should-float .mat-mdc-floating-label,
+  &.mat-focused .mat-mdc-floating-label {
+    top: 8px;
+    font-size: 12px;
+    color: #2c2c2c;
+    transform: translateY(0);
+  }
+
+  .mat-mdc-form-field-icon-suffix {
+    padding: 0 12px 0 0;
+
+    mat-icon {
+      color: #666;
+      font-size: 20px;
+    }
+  }
+
+  // Date picker toggle styling
+  .mat-datepicker-toggle {
+    .mat-datepicker-toggle-default-icon {
+      color: #666;
+      font-size: 20px;
+    }
+  }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .almosafer-search-container {
+    margin: 10px;
+    padding: 16px;
+    border-radius: 12px;
+  }
+
+  .guest-dropdown {
+    left: 10px;
+    right: 10px;
+
+    .dropdown-content {
+      padding: 16px;
+    }
+  }
+
+  .rooms-configuration {
+    .room-config {
+      .guest-selectors {
+        .counter-controls {
+          gap: 12px;
+
+          .counter-btn {
+            width: 32px;
+            height: 32px;
+          }
+        }
+      }
+
+      .bed-types-section {
+        .bed-type-options {
+          grid-template-columns: 1fr;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .search-bar {
+    gap: 8px;
+  }
+
+  .search-field {
+    &.search-button-field {
+      .search-btn {
+        width: 100%;
+        height: 48px;
+        font-size: 14px;
+      }
+    }
+  }
+
+  .quick-fill-section {
+    .quick-fill-options {
+      .quick-fill-btn {
+        flex: 1;
+        min-width: 0;
+        padding: 10px 16px;
+        font-size: 13px;
+
+        mat-icon {
+          font-size: 16px;
+        }
+      }
+    }
+  }
+}
+
+// Animation keyframes
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+// Custom scrollbar for dropdown
+.guest-dropdown {
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 3px;
+
+    &:hover {
+      background: #a8a8a8;
+    }
+  }
+}
+
+// RTL support
+[dir="rtl"] {
+  .search-bar {
+    direction: rtl;
+  }
+
+  .guest-summary-content {
+    .guest-icon {
+      margin-right: 0;
+      margin-left: 12px;
+    }
+  }
+
+  .room-title {
+    mat-icon {
+      margin-right: 0;
+      margin-left: 8px;
+    }
+  }
+
+  .search-btn {
+    mat-icon {
+      margin-right: 0;
+      margin-left: 8px;
+    }
+  }
+}
+
+// ===== FLOATING GUEST PANEL STYLES =====
+
+// Guest trigger button (replaces the mat-select)
+
+
+// Almosafer-style Guest Popup (positioned below guest field - exactly like date picker)
+.almosafer-guest-popup {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  right: 0;
+  z-index: 999; // Below modals but above page content - inline popup style
+  width: 520px;
+  max-width: calc(100vw - 32px);
+  margin: 0 auto;
+
+  // Remove any backdrop effects - pure inline popup
+  pointer-events: auto;
+
+  // Smooth popup animation - exactly like Almosafer
+  animation: almosaferPopupSlide 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  transform-origin: top center;
+
+  // RTL positioning support
+  :host-context([dir="rtl"]) & {
+    left: 0;
+    right: 0;
+  }
+
+  // Mobile responsive - full width like Almosafer mobile
+  @media (max-width: 768px) {
+    left: -16px;
+    right: -16px;
+    width: auto;
+    max-width: none;
+    margin: 0;
+    top: calc(100% + 6px);
+  }
+
+  // Tablet responsive
+  @media (max-width: 1024px) and (min-width: 769px) {
+    width: 450px;
+  }
+
+  // Very small screens
+  @media (max-width: 480px) {
+    left: -12px;
+    right: -12px;
+  }
+}
+
+// Almosafer popup animation keyframes
+@keyframes almosaferPopupSlide {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px) scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+// Popup Content Container - Almosafer style exactly like their dropdowns
+.popup-content {
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow:
+    0 2px 12px rgba(0, 0, 0, 0.06),
+    0 1px 4px rgba(0, 0, 0, 0.04);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  font-family: 'Noto Kufi Arabic', 'Segoe UI', 'Roboto', sans-serif;
+
+  // Smooth transitions - lighter for inline feel
+  transition: all 0.2s ease-out;
+
+  // Ensure proper stacking - inline popup, not modal
+  position: relative;
+  z-index: 1;
+
+  // Better scrolling
+  scroll-behavior: smooth;
+
+  // Ensure it doesn't block page interaction
+  pointer-events: auto;
+}
+
+// Popup Header
+.popup-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px 16px 24px;
+  border-bottom: 1px solid #f0f0f0;
+  background: #fafafa;
+
+  .header-content {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    .header-icon {
+      color: #2c2c2c;
+      font-size: 24px;
+    }
+
+    .popup-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: #1a1a1a;
+      margin: 0;
+      font-family: 'Noto Kufi Arabic', 'Google Sans', sans-serif;
+    }
+  }
+
+  .room-counter {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    background: #2c2c2c;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+
+    .room-count {
+      font-size: 16px;
+      font-weight: 700;
+    }
+
+    .room-label {
+      font-size: 12px;
+    }
+  }
+}
+
+// Rooms List Container
+.rooms-list {
+  max-height: 400px;
+  overflow-y: auto;
+  padding: 0;
+}
+
+// Almosafer Room Card
+.almosafer-room-card {
+  padding: 24px;
+  border-bottom: 1px solid #f0f0f0;
+  background: white;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  // Room Card Header
+  .room-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+
+    .room-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+
+      .room-icon {
+        color: #2c2c2c;
+        font-size: 20px;
+      }
+
+      .room-title {
+        font-size: 16px;
+        font-weight: 700;
+        color: #1a1a1a;
+        font-family: 'Noto Kufi Arabic', 'Google Sans', sans-serif;
+      }
+    }
+
+    .delete-room-btn {
+      background: #f5f5f5;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+
+      &:hover:not(:disabled) {
+        background: #ff4444;
+        border-color: #ff4444;
+        color: white;
+        transform: scale(1.05);
+      }
+
+      &:disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
+        transform: none;
+      }
+
+      mat-icon {
+        font-size: 16px;
+        color: inherit;
+      }
+    }
+  }
+}
+
+// Guest Counters Section
+.guest-counters-section {
+  margin-bottom: 24px;
+}
+
+// Almosafer Counter
+.almosafer-counter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 0;
+  border-bottom: 1px solid #f0f0f0;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  .counter-info {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+
+    .counter-icon {
+      color: #2c2c2c;
+      font-size: 24px;
+    }
+
+    .counter-text {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+
+      .counter-label {
+        font-size: 16px;
+        font-weight: 700;
+        color: #1a1a1a;
+        font-family: 'Noto Kufi Arabic', 'Google Sans', sans-serif;
+      }
+
+      .counter-desc {
+        font-size: 13px;
+        color: #666;
+        font-weight: 500;
+      }
+    }
+  }
+
+  .counter-controls {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+
+    .almosafer-counter-btn {
+      background: white;
+      border: 2px solid #2c2c2c;
+      border-radius: 8px;
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+
+      &:hover:not(:disabled) {
+        background: #2c2c2c;
+        color: white;
+        transform: scale(1.05);
+      }
+
+      &:disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
+        transform: none;
+        border-color: #ccc;
+      }
+
+      mat-icon {
+        font-size: 18px;
+        font-weight: bold;
+      }
+    }
+
+    .almosafer-counter-value {
+      font-size: 18px;
+      font-weight: 700;
+      color: #1a1a1a;
+      min-width: 24px;
+      text-align: center;
+      font-family: 'Noto Kufi Arabic', 'Google Sans', sans-serif;
+    }
+  }
+}
+
+// Children Ages Section
+.children-ages-section {
+  margin-bottom: 24px;
+  padding: 20px 0;
+  border-top: 1px solid #f0f0f0;
+
+  .ages-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+
+    .ages-icon {
+      color: #ff9800;
+      font-size: 20px;
+    }
+
+    .ages-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #1a1a1a;
+      font-family: 'Noto Kufi Arabic', 'Google Sans', sans-serif;
+    }
+  }
+
+  .ages-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 16px;
+
+    .age-selector {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+
+      .age-label {
+        font-size: 14px;
+        font-weight: 600;
+        color: #666;
+        font-family: 'Noto Kufi Arabic', 'Google Sans', sans-serif;
+      }
+
+      .age-dropdown {
+        width: 100%;
+
+        ::ng-deep .mat-mdc-form-field-wrapper {
+          background: white;
+          border: 2px solid #e8e8e8;
+          border-radius: 8px;
+          transition: all 0.2s ease;
+
+          &:hover {
+            border-color: #2c2c2c;
+          }
+        }
+
+        ::ng-deep .mat-mdc-form-field-focus-overlay {
+          background: transparent;
+        }
+
+        ::ng-deep .mat-mdc-select-value {
+          font-weight: 600;
+          color: #1a1a1a;
+          font-family: 'Noto Kufi Arabic', 'Google Sans', sans-serif;
+        }
+      }
+    }
+  }
+}
+
+// Almosafer Bed Section
+.almosafer-bed-section {
+  margin-bottom: 24px;
+  padding: 20px 0;
+  border-top: 1px solid #f0f0f0;
+
+  .bed-section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+
+    .bed-header-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+
+      .bed-icon {
+        color: #4caf50;
+        font-size: 20px;
+      }
+
+      .bed-title {
+        font-size: 16px;
+        font-weight: 700;
+        color: #1a1a1a;
+        font-family: 'Noto Kufi Arabic', 'Google Sans', sans-serif;
+      }
+    }
+
+    .bed-counter-badge {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      background: #f0f8ff;
+      color: #2c2c2c;
+      padding: 6px 12px;
+      border-radius: 16px;
+      font-size: 13px;
+      font-weight: 600;
+      border: 1px solid #e3f2fd;
+
+      .bed-count {
+        font-size: 16px;
+        font-weight: 700;
+      }
+
+      .bed-max {
+        color: #666;
+      }
+    }
+  }
+
+  .almosafer-bed-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+    margin-bottom: 16px;
+
+    .almosafer-bed-option {
+      background: white;
+      border: 2px solid #e8e8e8;
+      border-radius: 12px;
+      padding: 16px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+
+      &:hover {
+        border-color: #2c2c2c;
+        background: #fafbff;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 102, 204, 0.1);
+      }
+
+      &.selected {
+        border-color: #2c2c2c;
+        background: #f0f8ff;
+        box-shadow: 0 2px 8px rgba(0, 102, 204, 0.15);
+      }
+
+      .bed-option-content {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 12px;
+
+        ::ng-deep .mat-mdc-checkbox {
+          .mdc-checkbox__native-control:enabled:checked ~ .mdc-checkbox__background {
+            background-color: #2c2c2c !important;
+            border-color: #2c2c2c !important;
+          }
+        }
+
+        .bed-type-name {
+          font-size: 15px;
+          font-weight: 600;
+          color: #1a1a1a;
+          font-family: 'Noto Kufi Arabic', 'Google Sans', sans-serif;
+        }
+      }
+
+      .almosafer-bed-quantity {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        padding: 8px;
+        background: #f8f9fa;
+        border-radius: 8px;
+
+        .bed-quantity-btn {
+          background: white;
+          border: 1px solid #2c2c2c;
+          border-radius: 6px;
+          width: 28px;
+          height: 28px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          transition: all 0.2s ease;
+
+          &:hover:not(:disabled) {
+            background: #2c2c2c;
+            color: white;
+            transform: scale(1.1);
+          }
+
+          &:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: none;
+          }
+
+          mat-icon {
+            font-size: 16px;
+          }
+        }
+
+        .bed-quantity-value {
+          font-size: 16px;
+          font-weight: 700;
+          color: #2c2c2c;
+          min-width: 20px;
+          text-align: center;
+          font-family: 'Noto Kufi Arabic', 'Google Sans', sans-serif;
+        }
+      }
+    }
+  }
+
+  .almosafer-more-beds-btn {
+    background: transparent;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    width: 100%;
+    justify-content: center;
+    font-family: 'Noto Kufi Arabic', 'Google Sans', sans-serif;
+
+    &:hover {
+      border-color: #2c2c2c;
+      color: #2c2c2c;
+      background: #fafbff;
+    }
+
+    mat-icon {
+      font-size: 18px;
+    }
+
+    span {
+      font-size: 14px;
+      font-weight: 600;
+    }
+  }
+}
+
+// Almosafer Popup Actions
+.almosafer-popup-actions {
+  padding: 20px 24px;
+  background: #fafafa;
+  border-top: 1px solid #f0f0f0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  .almosafer-add-room-btn {
+    background: transparent;
+    border: 2px dashed #2c2c2c;
+    border-radius: 12px;
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: #2c2c2c;
+    font-family: 'Noto Kufi Arabic', 'Google Sans', sans-serif;
+
+    &:hover {
+      background: #f0f8ff;
+      border-color: #0052cc;
+      transform: translateY(-1px);
+    }
+
+    mat-icon {
+      font-size: 20px;
+    }
+
+    span {
+      font-size: 15px;
+      font-weight: 600;
+    }
+  }
+
+  .action-buttons-group {
+    display: flex;
+    gap: 12px;
+
+    .almosafer-cancel-btn {
+      flex: 1;
+      background: white;
+      border: 2px solid #e0e0e0;
+      border-radius: 12px;
+      padding: 16px 24px;
+      font-size: 16px;
+      font-weight: 600;
+      color: #666;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: 'Noto Kufi Arabic', 'Google Sans', sans-serif;
+
+      &:hover {
+        border-color: #ccc;
+        background: #f8f8f8;
+        color: #333;
+      }
+    }
+
+    .almosafer-apply-btn {
+      flex: 2;
+      background: #2c2c2c;
+      border: 2px solid #2c2c2c;
+      border-radius: 12px;
+      padding: 16px 24px;
+      font-size: 16px;
+      font-weight: 700;
+      color: white;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: 'Noto Kufi Arabic', 'Google Sans', sans-serif;
+
+      &:hover {
+        background: #0052cc;
+        border-color: #0052cc;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(0, 102, 204, 0.3);
+      }
+    }
+  }
+
+  // Mobile responsive
+  @media (max-width: 480px) {
+    .action-buttons-group {
+      flex-direction: column;
+
+      .almosafer-cancel-btn,
+      .almosafer-apply-btn {
+        flex: none;
+      }
+    }
+  }
+}
+
+// Almosafer-style floating panel container
+.guest-panel {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+  max-width: 680px;
+  width: 100%;
+  max-height: 85vh;
+  overflow: hidden;
+  margin-top: 8px; // Closer to search bar like Almosafer
+  animation: almosaferSlideIn 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  position: relative;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+
+  .panel-content {
+    padding: 0;
+    overflow-y: auto;
+    max-height: 85vh;
+  }
+
+  .panel-header {
+    padding: 24px 24px 16px 24px;
+    margin-bottom: 0;
+    border-bottom: 1px solid #f0f0f0;
+    background: #fafafa;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+
+    .panel-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: #1a1a1a;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      font-family: 'Noto Kufi Arabic', 'Google Sans', sans-serif;
+
+      mat-icon {
+        margin-right: 12px;
+        color: #2c2c2c;
+        font-size: 24px;
+        width: 24px;
+        height: 24px;
+      }
+    }
+  }
+
+  // Almosafer-style room configuration
+  .rooms-configuration {
+    padding: 0 24px 24px 24px;
+
+    .room-config {
+      background: white;
+      border: 1px solid #e8e8e8;
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 20px;
+      transition: all 0.2s ease;
+      position: relative;
+
+      &:hover {
+        border-color: #2c2c2c;
+        box-shadow: 0 4px 20px rgba(0, 102, 204, 0.1);
+      }
+
+      .room-header {
+        margin-bottom: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        .room-title {
+          font-size: 18px;
+          font-weight: 600;
+          color: #1a1a1a;
+          display: flex;
+          align-items: center;
+          font-family: 'Noto Kufi Arabic', 'Google Sans', sans-serif;
+
+          mat-icon {
+            margin-right: 8px;
+            color: #2c2c2c;
+            font-size: 20px;
+          }
+        }
+
+        .delete-room-btn {
+          background: #ff4757;
+          color: white;
+          border: none;
+          border-radius: 8px;
+          padding: 8px 12px;
+          font-size: 12px;
+          font-weight: 500;
+          cursor: pointer;
+          transition: all 0.2s ease;
+          display: flex;
+          align-items: center;
+          gap: 4px;
+
+          &:hover {
+            background: #ff3742;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(255, 71, 87, 0.3);
+          }
+
+          mat-icon {
+            font-size: 16px;
+          }
+        }
+      }
+    }
+  }
+
+  .panel-actions {
+    margin-top: 0;
+    padding: 20px 24px;
+    border-top: 1px solid #f0f0f0;
+    background: #fafafa;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    position: sticky;
+    bottom: 0;
+
+    .add-room-btn {
+      background: transparent;
+      color: #2c2c2c;
+      border: 2px solid #2c2c2c;
+      border-radius: 10px;
+      padding: 12px 20px;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'Noto Kufi Arabic', 'Google Sans', sans-serif;
+
+      &:hover:not(:disabled) {
+        background: #2c2c2c;
+        color: white;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(0, 102, 204, 0.3);
+      }
+
+      &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        transform: none;
+      }
+
+      mat-icon {
+        font-size: 18px;
+      }
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 12px;
+
+      .cancel-btn {
+        padding: 12px 24px;
+        border-radius: 10px;
+        background: #f5f5f5;
+        color: #666;
+        border: 1px solid #e0e0e0;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        font-family: 'Noto Kufi Arabic', 'Google Sans', sans-serif;
+
+        &:hover {
+          background: #e8e8e8;
+          color: #333;
+        }
+      }
+
+      .apply-btn {
+        padding: 12px 32px;
+        font-weight: 600;
+        border-radius: 10px;
+        background: #2c2c2c;
+        color: white;
+        border: none;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        font-family: 'Noto Kufi Arabic', 'Google Sans', sans-serif;
+
+        &:hover {
+          background: #0052a3;
+          transform: translateY(-1px);
+          box-shadow: 0 4px 12px rgba(0, 102, 204, 0.3);
+        }
+      }
+    }
+  }
+}
+
+// Dark theme support for Almosafer popup
+:host-context(.dark-theme) {
+  .almosafer-guest-popup {
+    .popup-content {
+      background: var(--mat-sys-surface-container) !important;
+      border-color: var(--mat-sys-outline) !important;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4) !important;
+    }
+
+    .popup-header {
+      background: var(--mat-sys-surface-container-high) !important;
+      border-bottom-color: var(--mat-sys-outline) !important;
+
+      .popup-title {
+        color: var(--mat-sys-on-surface) !important;
+      }
+
+      .header-icon {
+        color: var(--mat-sys-primary) !important;
+      }
+
+      .room-counter {
+        background: var(--mat-sys-primary) !important;
+        color: var(--mat-sys-on-primary) !important;
+      }
+    }
+
+    .almosafer-room-card {
+      background: var(--mat-sys-surface-container) !important;
+      border-bottom-color: var(--mat-sys-outline) !important;
+
+      .room-title {
+        color: var(--mat-sys-on-surface) !important;
+      }
+
+      .room-icon {
+        color: var(--mat-sys-primary) !important;
+      }
+
+      .delete-room-btn {
+        background: var(--mat-sys-surface-container-high) !important;
+        border-color: var(--mat-sys-outline) !important;
+        color: var(--mat-sys-on-surface-variant) !important;
+
+        &:hover:not(:disabled) {
+          background: #d32f2f !important;
+          border-color: #d32f2f !important;
+          color: white !important;
+        }
+      }
+    }
+
+    .almosafer-counter {
+      border-bottom-color: var(--mat-sys-outline) !important;
+
+      .counter-label {
+        color: var(--mat-sys-on-surface) !important;
+      }
+
+      .counter-desc {
+        color: var(--mat-sys-on-surface-variant) !important;
+      }
+
+      .counter-icon {
+        color: var(--mat-sys-primary) !important;
+      }
+
+      .almosafer-counter-btn {
+        background: var(--mat-sys-surface-container-high) !important;
+        border-color: var(--mat-sys-primary) !important;
+        color: var(--mat-sys-on-surface) !important;
+
+        &:hover:not(:disabled) {
+          background: var(--mat-sys-primary) !important;
+          color: var(--mat-sys-on-primary) !important;
+        }
+      }
+
+      .almosafer-counter-value {
+        color: var(--mat-sys-on-surface) !important;
+      }
+    }
+
+    .children-ages-section {
+      border-top-color: var(--mat-sys-outline) !important;
+
+      .ages-title {
+        color: var(--mat-sys-on-surface) !important;
+      }
+
+      .ages-icon {
+        color: #ff9800 !important;
+      }
+
+      .age-label {
+        color: var(--mat-sys-on-surface-variant) !important;
+      }
+    }
+
+    .almosafer-bed-section {
+      border-top-color: var(--mat-sys-outline) !important;
+
+      .bed-title {
+        color: var(--mat-sys-on-surface) !important;
+      }
+
+      .bed-icon {
+        color: #4caf50 !important;
+      }
+
+      .bed-counter-badge {
+        background: var(--mat-sys-surface-container-high) !important;
+        color: var(--mat-sys-primary) !important;
+        border-color: var(--mat-sys-outline) !important;
+      }
+
+      .almosafer-bed-option {
+        background: var(--mat-sys-surface-container-high) !important;
+        border-color: var(--mat-sys-outline) !important;
+
+        &:hover {
+          border-color: var(--mat-sys-primary) !important;
+          background: var(--mat-sys-surface-container-highest) !important;
+        }
+
+        &.selected {
+          border-color: var(--mat-sys-primary) !important;
+          background: var(--mat-sys-surface-container-highest) !important;
+        }
+
+        .bed-type-name {
+          color: var(--mat-sys-on-surface) !important;
+        }
+
+        .almosafer-bed-quantity {
+          background: var(--mat-sys-surface-container) !important;
+
+          .bed-quantity-btn {
+            background: var(--mat-sys-surface-container-high) !important;
+            border-color: var(--mat-sys-primary) !important;
+            color: var(--mat-sys-on-surface) !important;
+
+            &:hover:not(:disabled) {
+              background: var(--mat-sys-primary) !important;
+              color: var(--mat-sys-on-primary) !important;
+            }
+          }
+
+          .bed-quantity-value {
+            color: var(--mat-sys-primary) !important;
+          }
+        }
+      }
+
+      .almosafer-more-beds-btn {
+        background: var(--mat-sys-surface-container-high) !important;
+        border-color: var(--mat-sys-outline) !important;
+        color: var(--mat-sys-on-surface) !important;
+
+        &:hover {
+          border-color: var(--mat-sys-primary) !important;
+          color: var(--mat-sys-primary) !important;
+          background: var(--mat-sys-surface-container-highest) !important;
+        }
+      }
+    }
+
+    .almosafer-popup-actions {
+      background: var(--mat-sys-surface-container-high) !important;
+      border-top-color: var(--mat-sys-outline) !important;
+
+      .almosafer-add-room-btn {
+        background: transparent !important;
+        border-color: var(--mat-sys-primary) !important;
+        color: var(--mat-sys-primary) !important;
+
+        &:hover {
+          background: var(--mat-sys-surface-container-highest) !important;
+        }
+      }
+
+      .almosafer-cancel-btn {
+        background: var(--mat-sys-surface-container-high) !important;
+        border-color: var(--mat-sys-outline) !important;
+        color: var(--mat-sys-on-surface-variant) !important;
+
+        &:hover {
+          border-color: var(--mat-sys-outline-variant) !important;
+          background: var(--mat-sys-surface-container-highest) !important;
+          color: var(--mat-sys-on-surface) !important;
+        }
+      }
+
+      .almosafer-apply-btn {
+        background: var(--mat-sys-primary) !important;
+        border-color: var(--mat-sys-primary) !important;
+        color: var(--mat-sys-on-primary) !important;
+
+        &:hover {
+          background: var(--mat-sys-primary-container) !important;
+          border-color: var(--mat-sys-primary-container) !important;
+        }
+      }
+    }
+  }
+
+  .guest-trigger-btn {
+    background: var(--mat-sys-surface-container) !important;
+    border-color: var(--mat-sys-outline) !important;
+    color: var(--mat-sys-on-surface) !important;
+
+    &:hover {
+      border-color: var(--mat-sys-primary) !important;
+      background: var(--mat-sys-surface-container-high) !important;
+    }
+
+    &.active {
+      border-color: var(--mat-sys-primary) !important;
+      background: var(--mat-sys-surface-container-high) !important;
+    }
+
+    .guest-trigger-content {
+      .guest-trigger-label {
+        color: var(--mat-sys-on-surface-variant) !important;
+      }
+
+      .guest-trigger-summary {
+        color: var(--mat-sys-on-surface) !important;
+      }
+    }
+
+    .guest-trigger-icon {
+      color: var(--mat-sys-on-surface-variant) !important;
+    }
+  }
+
+  .guest-panel-overlay {
+    background: rgba(0, 0, 0, 0.6);
+  }
+
+  .guest-panel {
+    background: var(--mat-sys-surface-container) !important;
+    color: var(--mat-sys-on-surface) !important;
+
+    .panel-header {
+      border-bottom-color: var(--mat-sys-outline) !important;
+
+      .panel-title {
+        color: var(--mat-sys-on-surface) !important;
+
+        mat-icon {
+          color: var(--mat-sys-primary) !important;
+        }
+      }
+    }
+
+    .rooms-configuration {
+      .room-config {
+        background: var(--mat-sys-surface-container-high) !important;
+        border-color: var(--mat-sys-outline) !important;
+      }
+    }
+
+    .panel-actions {
+      border-top-color: var(--mat-sys-outline) !important;
+
+      .cancel-btn {
+        // Keep the red danger styling even in dark theme
+        &.danger-btn {
+          background: #f44336 !important;
+          color: white !important;
+          border: none !important;
+
+          &:hover {
+            background: #d32f2f !important;
+            box-shadow: 0 2px 8px rgba(244, 67, 54, 0.4);
+          }
+
+          &:active {
+            background: #c62828 !important;
+          }
+        }
+      }
+    }
+  }
+}
+
+// Mobile responsiveness for floating panel
+@media (max-width: 768px) {
+  .guest-panel-overlay {
+    padding: 10px;
+    align-items: flex-start;
+  }
+
+  .guest-panel {
+    margin-top: 20px;
+    max-height: 90vh;
+    border-radius: 12px;
+    max-width: calc(100vw - 20px);
+
+    .panel-header {
+      padding: 20px 20px 16px 20px;
+
+      .panel-title {
+        font-size: 18px;
+      }
+    }
+
+    .panel-content {
+      padding: 0;
+    }
+
+    .rooms-configuration {
+      padding: 0 20px 20px 20px;
+
+      .room-config {
+        padding: 20px;
+
+        .room-header {
+          margin-bottom: 20px;
+
+          .room-title {
+            font-size: 16px;
+          }
+        }
+
+        .guest-selectors {
+          grid-template-columns: 1fr;
+          gap: 16px;
+
+          .guest-selector {
+            .selector-label {
+              font-size: 14px;
+            }
+
+            .counter-controls {
+              min-height: 52px;
+              padding: 10px 14px;
+
+              .counter-btn {
+                width: 32px;
+                height: 32px;
+              }
+
+              .counter-value {
+                font-size: 16px;
+              }
+            }
+          }
+        }
+
+        .bed-types-section {
+          .bed-type-options {
+            grid-template-columns: 1fr;
+            gap: 8px;
+
+            .bed-type-option {
+              flex-direction: column;
+              align-items: flex-start;
+              gap: 12px;
+              padding: 16px;
+
+              .bed-quantity {
+                align-self: flex-end;
+                gap: 0.75rem;
+                padding: 0.5rem;
+
+                .quantity-btn {
+                  width: 2.5rem;
+                  height: 2.5rem;
+                  min-width: 2.5rem;
+
+                  mat-icon {
+                    font-size: 1.125rem;
+                    width: 1.125rem;
+                    height: 1.125rem;
+                  }
+                }
+
+                .quantity-value {
+                  font-size: 1rem;
+                  min-width: 2rem;
+                  padding: 0.375rem 0.75rem;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .panel-actions {
+      flex-direction: column-reverse;
+      gap: 8px;
+
+      .cancel-btn,
+      .apply-btn {
+        width: 100%;
+        padding: 14px;
+      }
+    }
+  }
+}
+
+// Extra small screens (phones in portrait mode)
+@media (max-width: 480px) {
+  .guest-panel {
+    .rooms-configuration {
+      .room-config {
+        .bed-types-section {
+          .bed-type-options {
+            .bed-type-option {
+              .bed-quantity {
+                gap: 0.5rem;
+                padding: 0.375rem;
+
+                .quantity-btn {
+                  width: 2.25rem;
+                  height: 2.25rem;
+                  min-width: 2.25rem;
+
+                  mat-icon {
+                    font-size: 1rem;
+                    width: 1rem;
+                    height: 1rem;
+                  }
+                }
+
+                .quantity-value {
+                  font-size: 0.875rem;
+                  min-width: 1.75rem;
+                  padding: 0.25rem 0.5rem;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+// Almosafer-style animation keyframes for floating panel
+@keyframes almosaferSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-15px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+// Success snackbar styling
+::ng-deep .success-snackbar {
+  background: #4caf50 !important;
+  color: white !important;
+  font-weight: 500;
+
+  .mat-mdc-snack-bar-action {
+    color: white !important;
+    font-weight: 600;
+  }
+}
+
+// Dark theme support for snackbar
+:host-context(.dark-theme) {
+  ::ng-deep .success-snackbar {
+    background: #388e3c !important;
+    color: white !important;
+  }
+}
+
+// Enhanced Date Range Picker Styling
+.date-range-field {
+  .mat-mdc-form-field {
+    width: 100%;
+    position: relative;
+  }
+
+  // Custom overlay for date range with nights display - Almosafer.com style
+  .date-range-display-overlay {
+    position: absolute;
+    top: 50%;
+    left: 12px;
+    right: 40px; // Leave space for datepicker toggle
+    transform: translateY(-50%);
+    z-index: 2;
+    pointer-events: auto;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0;
+    background: transparent;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #333;
+
+    .date-range-text {
+      font-weight: 500;
+      white-space: nowrap;
+      flex: 1;
+      color: #333;
+      min-width: 0;
+      // Remove truncation to show full date range
+    }
+
+    .nights-separator {
+      color: #666;
+      font-weight: 400;
+      opacity: 0.8;
+    }
+
+    .nights-text {
+      color: #2c2c2c;
+      font-weight: 500;
+      white-space: nowrap;
+      font-size: 12px;
+      background: #e3f2fd;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+
+    // Responsive adjustments
+    @media (max-width: 768px) {
+      font-size: 0.9rem;
+      gap: 0.375rem;
+
+      .nights-text {
+        font-size: 0.85em;
+      }
+    }
+
+    @media (max-width: 480px) {
+      font-size: 0.85rem;
+      gap: 0.25rem;
+
+      .date-range-text {
+        max-width: 60%;
+      }
+
+      .nights-text {
+        font-size: 0.8em;
+      }
+    }
+  }
+
+  // Hide the actual input when overlay is shown
+  .mat-date-range-input.has-overlay {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  // Style the date range input
+  ::ng-deep .mat-date-range-input {
+    display: flex;
+    align-items: center;
+
+    .mat-date-range-input-start-wrapper,
+    .mat-date-range-input-end-wrapper {
+      flex: 1;
+
+      input {
+        text-align: center;
+        font-weight: 500;
+
+        &::placeholder {
+          color: #666;
+          font-weight: 400;
+        }
+      }
+    }
+
+    .mat-date-range-input-separator {
+      margin: 0 8px;
+      color: #666;
+      font-weight: 500;
+
+      &::before {
+        content: '→';
+        font-size: 16px;
+      }
+    }
+  }
+}
+
+// RTL support for date range input
+:host-context([dir="rtl"]) {
+  .date-range-field {
+    ::ng-deep .mat-date-range-input {
+      .mat-date-range-input-separator {
+        &::before {
+          content: '←';
+        }
+      }
+    }
+  }
+}
+
+// Custom Date Input - Almosafer.com Style - UNIFIED HEIGHT
+.custom-date-input {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 60px; // Fixed height to match all other fields
+  min-height: 60px;
+  max-height: 60px;
+  background: var(--mat-sys-surface, white);
+  border: 1px solid var(--mat-sys-outline-variant, #e0e0e0);
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+
+  &:hover {
+    border-color: var(--mat-sys-primary, #2c2c2c);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  }
+
+  &:focus-within {
+    border-color: var(--mat-sys-primary, #2c2c2c);
+    box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.1);
+  }
+
+  // Date buttons - UNIFIED HEIGHT
+  .date-btn {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 12px; // Reduced padding for consistent height
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    height: 58px; // Fixed height (60px - 2px border)
+    min-height: 58px;
+    max-height: 58px;
+    position: relative;
+
+    &:hover {
+      background: rgba(25, 118, 210, 0.04);
+    }
+
+    &:focus {
+      outline: none;
+      background: rgba(25, 118, 210, 0.08);
+    }
+
+    .date-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+      width: 100%;
+
+      .gregorian {
+        font-size: 14px;
+        font-weight: 500;
+        color: var(--mat-sys-on-surface, #333);
+        line-height: 1.2;
+        text-align: center;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 100%;
+      }
+
+      .hijri {
+        font-size: 11px;
+        font-weight: 400;
+        color: var(--mat-sys-on-surface-variant, #666);
+        line-height: 1.1;
+        text-align: center;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 100%;
+        margin-top: 1px;
+      }
+    }
+  }
+
+  // Divider between dates
+  .divider {
+    width: 1px;
+    height: 32px;
+    background: var(--mat-sys-outline-variant, #e0e0e0);
+    flex-shrink: 0;
+  }
+
+  // Calendar icon
+  .calendar-icon {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--mat-sys-on-surface-variant, #666);
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+    z-index: 1;
+    pointer-events: none;
+    transition: color 0.2s ease;
+
+    &.icon-rtl {
+      left: 12px;
+    }
+
+    &.icon-ltr {
+      right: 12px;
+    }
+  }
+
+  // Nights badge
+  .nights-badge {
+    position: absolute;
+    top: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--mat-sys-primary, #2c2c2c);
+    color: var(--mat-sys-on-primary, white);
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 500;
+    white-space: nowrap;
+    box-shadow: 0 2px 8px rgba(25, 118, 210, 0.3);
+    z-index: 2;
+
+    .nights-text {
+      color: inherit;
+    }
+  }
+
+  // RTL Layout
+  &.rtl {
+    direction: rtl;
+
+    .date-btn {
+      &.check-in-btn {
+        order: 2;
+      }
+
+      &.check-out-btn {
+        order: 1;
+      }
+    }
+
+    .divider {
+      order: 1.5;
+    }
+
+    .calendar-icon.icon-rtl {
+      left: 12px;
+      right: auto;
+    }
+  }
+
+  // LTR Layout
+  &.ltr {
+    direction: ltr;
+
+    .date-btn {
+      &.check-in-btn {
+        order: 1;
+      }
+
+      &.check-out-btn {
+        order: 2;
+      }
+    }
+
+    .divider {
+      order: 1.5;
+    }
+
+    .calendar-icon.icon-ltr {
+      right: 12px;
+      left: auto;
+    }
+  }
+
+  // Placeholder state
+  .date-btn .date-content .gregorian:only-child {
+    color: var(--mat-sys-on-surface-variant, #666);
+    font-weight: 400;
+  }
+
+  // Responsive design
+  @media (max-width: 768px) {
+    min-height: 48px;
+
+    .date-btn {
+      padding: 8px 12px;
+      min-height: 40px;
+
+      .date-content {
+        gap: 1px;
+
+        .gregorian {
+          font-size: 13px;
+        }
+
+        .hijri {
+          font-size: 10px;
+        }
+      }
+    }
+
+    .calendar-icon {
+      font-size: 18px;
+      width: 18px;
+      height: 18px;
+
+      &.icon-rtl {
+        left: 8px;
+      }
+
+      &.icon-ltr {
+        right: 8px;
+      }
+    }
+
+    .nights-badge {
+      font-size: 10px;
+      padding: 3px 6px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .date-btn {
+      padding: 6px 8px;
+
+      .date-content {
+        .gregorian {
+          font-size: 12px;
+        }
+
+        .hijri {
+          font-size: 9px;
+        }
+      }
+    }
+  }
+}
+
+// Error messages for custom date input
+.date-errors {
+  margin-top: 4px;
+
+  .error-message {
+    color: var(--mat-sys-error, #f44336);
+    font-size: 12px;
+    line-height: 1.2;
+    margin-bottom: 2px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+// Dark theme support for custom date input
+:host-context(.dark-theme) {
+  .custom-date-input {
+    background: var(--mat-sys-surface-container, #263238);
+    border-color: var(--mat-sys-outline-variant, #37474f);
+
+    &:hover {
+      border-color: var(--mat-sys-primary, #64b5f6);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    &:focus-within {
+      border-color: var(--mat-sys-primary, #64b5f6);
+      box-shadow: 0 0 0 2px rgba(100, 181, 246, 0.2);
+    }
+
+    .date-btn {
+      &:hover {
+        background: rgba(100, 181, 246, 0.08);
+      }
+
+      &:focus {
+        background: rgba(100, 181, 246, 0.12);
+      }
+
+      .date-content {
+        .gregorian {
+          color: var(--mat-sys-on-surface, #fff);
+        }
+
+        .hijri {
+          color: var(--mat-sys-on-surface-variant, #b0bec5);
+        }
+      }
+    }
+
+    .divider {
+      background: var(--mat-sys-outline-variant, #37474f);
+    }
+
+    .calendar-icon {
+      color: var(--mat-sys-on-surface-variant, #b0bec5);
+    }
+
+    .nights-badge {
+      background: var(--mat-sys-primary, #64b5f6);
+      color: var(--mat-sys-on-primary, #000);
+      box-shadow: 0 2px 8px rgba(100, 181, 246, 0.4);
+    }
+
+    // Placeholder state in dark theme
+    .date-btn .date-content .gregorian:only-child {
+      color: var(--mat-sys-on-surface-variant, #78909c);
+    }
+  }
+
+  .date-errors .error-message {
+    color: var(--mat-sys-error, #ff5252);
+  }
+}
+
+// Step-based date picker actions styling
+::ng-deep .mat-date-range-picker-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+  border-top: 1px solid #e0e0e0;
+
+  .date-picker-step-indicator {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 12px;
+    background: rgba(25, 118, 210, 0.1);
+    border-radius: 6px;
+
+    .step-label {
+      font-weight: 600;
+      color: #2c2c2c;
+      font-size: 14px;
+    }
+
+    .reset-btn {
+      color: #f44336;
+      font-size: 12px;
+      min-width: auto;
+      padding: 4px 8px;
+
+      &:hover {
+        background: rgba(244, 67, 54, 0.1);
+      }
+    }
+  }
+
+  .action-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+  }
+}
+
+// Dark theme support for step indicator
+:host-context(.dark-theme) {
+  ::ng-deep .mat-date-range-picker-actions {
+    border-top-color: #37474f;
+
+    .date-picker-step-indicator {
+      background: rgba(25, 118, 210, 0.2);
+
+      .step-label {
+        color: #64b5f6;
+      }
+    }
+  }
+}
+
+// Custom date range picker styling for enhanced UX
+::ng-deep .mat-datepicker-content {
+  .mat-calendar {
+    width: 320px;
+
+    .mat-calendar-body {
+      .mat-calendar-body-cell {
+        position: relative;
+        padding: 2px !important;
+
+        // Ensure proper cell spacing
+        &:not(:last-child) {
+          margin-right: 1px;
+        }
+
+        // Default cell styling - Enhanced for better visibility
+        .mat-calendar-body-cell-content {
+          width: 38px !important;
+          height: 38px !important;
+          line-height: 38px !important;
+          border-radius: 50% !important;
+          transition: all 0.2s ease !important;
+          display: flex !important;
+          align-items: center !important;
+          justify-content: center !important;
+          font-weight: 500 !important;
+          font-size: 14px !important;
+          margin: 0 auto !important;
+
+          &:hover {
+            transform: scale(1.1) !important;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) !important;
+          }
+        }
+
+        // Today's date styling
+        &.mat-calendar-body-today {
+          .mat-calendar-body-cell-content {
+            border: 2px solid #2c2c2c !important;
+            font-weight: 600 !important;
+            color: #2c2c2c !important;
+
+            &:not(.mat-calendar-body-selected) {
+              background: rgba(25, 118, 210, 0.1) !important;
+            }
+          }
+        }
+
+        // Range start (check-in date) - Enhanced for step-based selection
+        &.mat-date-range-input-start-date {
+          .mat-calendar-body-cell-content {
+            width: 40px !important;
+            height: 40px !important;
+            line-height: 40px !important;
+            background: #2c2c2c !important;
+            color: white !important;
+            border-radius: 50% 0 0 50% !important;
+            position: relative;
+            font-weight: 700 !important;
+            font-size: 15px !important;
+            box-shadow: 0 4px 12px rgba(25, 118, 210, 0.4) !important;
+            transform: scale(1.05) !important;
+
+            &::after {
+              content: '';
+              position: absolute;
+              right: -1px;
+              top: 0;
+              bottom: 0;
+              width: 50%;
+              background: rgba(25, 118, 210, 0.2);
+              z-index: -1;
+            }
+
+            // Add check-in indicator
+            &::before {
+              content: '✓';
+              position: absolute;
+              top: -3px;
+              right: -3px;
+              width: 14px;
+              height: 14px;
+              background: #4caf50;
+              color: white;
+              border-radius: 50%;
+              font-size: 9px;
+              font-weight: bold;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              z-index: 3;
+              box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            }
+
+            &:hover {
+              transform: scale(1.08) !important;
+              box-shadow: 0 6px 16px rgba(25, 118, 210, 0.5) !important;
+            }
+          }
+        }
+
+        // Range end (check-out date) - Enhanced for step-based selection
+        &.mat-date-range-input-end-date {
+          .mat-calendar-body-cell-content {
+            width: 40px !important;
+            height: 40px !important;
+            line-height: 40px !important;
+            background: #2c2c2c !important;
+            color: white !important;
+            border-radius: 0 50% 50% 0 !important;
+            position: relative;
+            font-weight: 700 !important;
+            font-size: 15px !important;
+            box-shadow: 0 4px 12px rgba(25, 118, 210, 0.4) !important;
+            transform: scale(1.05) !important;
+
+            &::before {
+              content: '';
+              position: absolute;
+              left: -1px;
+              top: 0;
+              bottom: 0;
+              width: 50%;
+              background: rgba(25, 118, 210, 0.2);
+              z-index: -1;
+            }
+
+            // Add check-out indicator
+            &::after {
+              content: '→';
+              position: absolute;
+              top: -3px;
+              left: -3px;
+              width: 14px;
+              height: 14px;
+              background: #ff9800;
+              color: white;
+              border-radius: 50%;
+              font-size: 9px;
+              font-weight: bold;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              z-index: 3;
+              box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            }
+
+            &:hover {
+              transform: scale(1.08) !important;
+              box-shadow: 0 6px 16px rgba(25, 118, 210, 0.5) !important;
+            }
+          }
+        }
+
+        // Range middle dates - Enhanced for step-based selection
+        &.mat-date-range-input-in-range {
+          .mat-calendar-body-cell-content {
+            background: rgba(25, 118, 210, 0.25) !important;
+            color: #2c2c2c !important;
+            border-radius: 0 !important;
+            font-weight: 500 !important;
+            position: relative;
+
+            // Add subtle pattern for range days
+            &::before {
+              content: '';
+              position: absolute;
+              top: 50%;
+              left: 50%;
+              transform: translate(-50%, -50%);
+              width: 4px;
+              height: 4px;
+              background: rgba(25, 118, 210, 0.4);
+              border-radius: 50%;
+            }
+          }
+        }
+
+        // Hover effects for range selection - Enhanced
+        &.mat-date-range-input-range-hover {
+          .mat-calendar-body-cell-content {
+            background: rgba(25, 118, 210, 0.15) !important;
+            color: #2c2c2c !important;
+            border-radius: 0 !important;
+            transition: all 0.2s ease !important;
+            transform: scale(1.05) !important;
+          }
+        }
+
+        // Preview range while hovering
+        &.mat-date-range-input-preview-start {
+          .mat-calendar-body-cell-content {
+            background: rgba(25, 118, 210, 0.3) !important;
+            color: #2c2c2c !important;
+            border-radius: 50% 0 0 50% !important;
+          }
+        }
+
+        &.mat-date-range-input-preview-end {
+          .mat-calendar-body-cell-content {
+            background: rgba(25, 118, 210, 0.3) !important;
+            color: #2c2c2c !important;
+            border-radius: 0 50% 50% 0 !important;
+          }
+        }
+
+        &.mat-date-range-input-preview-range {
+          .mat-calendar-body-cell-content {
+            background: rgba(25, 118, 210, 0.1) !important;
+            color: #2c2c2c !important;
+            border-radius: 0 !important;
+          }
+        }
+      }
+    }
+  }
+}
+
+// RTL support for Arabic
+:host-context([dir="rtl"]) {
+  ::ng-deep .mat-datepicker-content {
+    .mat-calendar {
+      .mat-calendar-body {
+        .mat-calendar-body-cell {
+          // Range start (check-in date) - RTL
+          &.mat-date-range-input-start-date {
+            .mat-calendar-body-cell-content {
+              border-radius: 0 50% 50% 0 !important;
+
+              &::after {
+                right: auto;
+                left: -1px;
+              }
+
+              // Adjust check-in indicator position for RTL
+              &::before {
+                right: auto !important;
+                left: -3px !important;
+              }
+            }
+          }
+
+          // Range end (check-out date) - RTL
+          &.mat-date-range-input-end-date {
+            .mat-calendar-body-cell-content {
+              border-radius: 50% 0 0 50% !important;
+
+              &::before {
+                left: auto;
+                right: -1px;
+              }
+
+              // Adjust check-out indicator position for RTL
+              &::after {
+                left: auto !important;
+                right: -3px !important;
+                content: '←' !important; // Change arrow direction for RTL
+              }
+            }
+          }
+
+          // Preview range while hovering - RTL
+          &.mat-date-range-input-preview-start {
+            .mat-calendar-body-cell-content {
+              border-radius: 0 50% 50% 0 !important;
+            }
+          }
+
+          &.mat-date-range-input-preview-end {
+            .mat-calendar-body-cell-content {
+              border-radius: 50% 0 0 50% !important;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+// Dark theme support for date picker
+:host-context(.dark-theme) {
+  ::ng-deep .mat-datepicker-content {
+    background: #263238 !important;
+    color: #fff !important;
+
+    .mat-calendar {
+      background: #263238 !important;
+      color: #fff !important;
+
+      .mat-calendar-header {
+        background: #37474f !important;
+        color: #fff !important;
+      }
+
+      .mat-calendar-body {
+        .mat-calendar-body-cell {
+          .mat-calendar-body-cell-content {
+            color: #fff !important;
+
+            &:hover {
+              background: #37474f !important;
+            }
+          }
+
+          &.mat-calendar-body-disabled {
+            .mat-calendar-body-cell-content {
+              color: #78909c !important;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+// Mobile responsiveness for date picker
+@media (max-width: 768px) {
+  ::ng-deep .mat-datepicker-content {
+    .mat-calendar {
+      width: 280px;
+
+      .mat-calendar-body {
+        .mat-calendar-body-cell {
+          .mat-calendar-body-cell-content {
+            width: 34px !important;
+            height: 34px !important;
+            line-height: 34px !important;
+            font-size: 13px !important;
+          }
+
+          // Mobile adjustments for selected dates
+          &.mat-date-range-input-start-date,
+          &.mat-date-range-input-end-date {
+            .mat-calendar-body-cell-content {
+              width: 36px !important;
+              height: 36px !important;
+              line-height: 36px !important;
+              font-size: 14px !important;
+
+              &::before,
+              &::after {
+                width: 12px !important;
+                height: 12px !important;
+                font-size: 8px !important;
+                top: -2px !important;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+// Extra small screens (phones in portrait)
+@media (max-width: 480px) {
+  ::ng-deep .mat-datepicker-content {
+    .mat-calendar {
+      width: 260px;
+
+      .mat-calendar-body {
+        .mat-calendar-body-cell {
+          .mat-calendar-body-cell-content {
+            width: 30px !important;
+            height: 30px !important;
+            line-height: 30px !important;
+            font-size: 12px !important;
+          }
+
+          // Extra small screen adjustments for selected dates
+          &.mat-date-range-input-start-date,
+          &.mat-date-range-input-end-date {
+            .mat-calendar-body-cell-content {
+              width: 32px !important;
+              height: 32px !important;
+              line-height: 32px !important;
+              font-size: 13px !important;
+
+              &::before,
+              &::after {
+                width: 10px !important;
+                height: 10px !important;
+                font-size: 7px !important;
+                top: -1px !important;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+// Success snackbar styling
+::ng-deep .success-snackbar {
+  background: #4caf50 !important;
+  color: white !important;
+
+  .mat-mdc-snack-bar-label {
+    color: white !important;
+    font-weight: 500;
+  }
+
+  .mat-mdc-button {
+    color: white !important;
+  }
+}
+
+// Warning snackbar styling
+::ng-deep .warning-snackbar {
+  background: #ff9800 !important;
+  color: white !important;
+
+  .mat-mdc-snack-bar-label {
+    color: white !important;
+    font-weight: 500;
+  }
+
+  .mat-mdc-button {
+    color: white !important;
+  }
+}
+
+// Tooltip styling
+::ng-deep .delete-tooltip {
+  background: #f44336 !important;
+  color: white !important;
+  font-size: 12px !important;
+}
+
+::ng-deep .warning-tooltip {
+  background: #ff9800 !important;
+  color: white !important;
+  font-size: 12px !important;
+}
+
+// Room animation keyframes
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideOutDown {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+}
+
+// Confirmation dialog styling
+::ng-deep .confirmation-dialog {
+  .mat-mdc-dialog-container {
+    padding: 0 !important;
+    border-radius: 12px !important;
+    overflow: hidden !important;
+  }
+}
+
+.large-input .mat-mdc-text-field-wrapper {
+  min-height: 60px;   // أو أي ارتفاع تريده (مثلاً: 80px)
+  height: 60px;
+}
+
+.large-input input.mat-mdc-input-element {
+  height: 42px !important;      // يجعل الـ input نفسه أطول
+  font-size: 1.15rem;           // لو تريد تكبير الخط أيضاً
+  padding-top: 18px;            // يجعل النص في الوسط (حسب ارتفاعك)
+  padding-bottom: 18px;
+}
+
+:host-context([dir="rtl"]) .date-range-text {
+  direction: rtl;
+  text-align: right;
+}
+:host-context([dir="ltr"]) .date-range-text {
+  direction: ltr;
+  text-align: left;
+}
+
+// Monochrome Theme - Black & White Design
+.search-btn {
+  background: #000 !important;
+  border: 1.5px solid #222 !important;
+  color: #fff !important;
+  border-radius: 12px !important;
+  font-weight: bold !important;
+  transition: background 0.2s, border 0.2s !important;
+
+  &:hover:not(:disabled) {
+    background: #333 !important;
+    border-color: #444 !important;
+  }
+
+  &:disabled,
+  &.disabled-search {
+    background: #666 !important;
+    border-color: #888 !important;
+    color: #ccc !important;
+  }
+
+  mat-icon {
+    color: #fff !important;
+  }
+
+  &:disabled mat-icon,
+  &.disabled-search mat-icon {
+    color: #ccc !important;
+  }
+}
+
+// Monochrome nights badge
+.nights-badge {
+  border: 2px solid #222 !important;
+  background: #fff !important;
+  color: #111 !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2) !important;
+
+  .nights-text {
+    color: #111 !important;
+  }
+}
+
+
+.search-bar {
+  display: grid;
+  gap: 12px;
+  align-items: stretch;
+
+  /* اربعة أعمدة: موقع، تاريخ، ضيوف، زر */
+  grid-auto-rows: minmax(56px, auto);
+
+  /* اربط كل حقل بمنطقة */
+  .location-field      { grid-area: location; }
+  .date-range-field    { grid-area: date; }
+  .guest-field         { grid-area: guest; }
+  .search-button-field { grid-area: btn; }
+}
+/* العربي (RTL) — المطلوب: موقع → تاريخ → ضيوف → زر */
+.rtl-order {
+  grid-template-columns: 1.6fr 1.8fr 1.3fr auto;
+  grid-template-areas: "location date guest btn";
+}
+
+/* الانجليزي (LTR) — مطلوب: موقع → تاريخ → ضيوف → زر */
+.ltr-order {
+  grid-template-columns: 1.4fr 1.8fr 1.4fr auto;
+  grid-template-areas: "location date guest btn";
+}
+
+/* موبايل: عمود واحد مع ترتيب مناسب للاتجاه */
+@media (max-width: 768px) {
+  .rtl-order,
+  .ltr-order {
+    grid-template-columns: 1fr;
+  }
+  .rtl-order {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "location"
+      "date"
+      "guest"
+      "btn";
+  }
+  .ltr-order {  /* إنجليزي: موقع، تاريخ، ضيوف، زر */
+    grid-template-areas:
+      "location"
+      "date"
+      "guest"
+      "btn";
+  }
+}
+
+
+/* ===== Unified Fields Height & Padding ===== */
+.almosafer-search-container .search-bar {
+  --field-h: 68px;                       /* الارتفاع الموحد - موسع */
+  --field-padding: 16px 12px;             /* الحشو الموحد */
+  align-items: stretch;
+  grid-auto-rows: minmax(var(--field-h), auto);
+}
+
+@media (max-width: 768px) {
+  .almosafer-search-container .search-bar {
+    --field-h: 56px; /* موبايل أعرض قليلاً أيضاً */
+    --field-padding: 14px 12px; /* حشو أصغر للشاشات الصغيرة */
+  }
+}
+
+/* كل الحقول تأخذ نفس الارتفاع والحشو */
+.almosafer-search-container .search-bar .search-field {
+  min-height: var(--field-h) !important;
+  display: flex;
+  align-items: stretch;
+}
+
+/* ===== ألوان مخصصة للحقول (Light/Dark) ===== */
+.almosafer-search-container .search-bar {
+  /* ألوان افتراضية يمكن تعديلها سريعًا */
+  --field-bg: #121e2a;         /* خلفية الحقول */
+  --field-border: #2a3a4a;     /* حدود الحقول */
+  --field-text: #e7edf3;       /* لون النص */
+  --field-label: #9fb3c8;      /* لون الليبل/الأيقونة */
+}
+
+/* تطبيق الألوان على كل الحقول */
+.almosafer-search-container .search-bar .location-field .mat-mdc-text-field-wrapper,
+.almosafer-search-container .search-bar .date-range-field .mat-mdc-text-field-wrapper,
+.almosafer-search-container .search-bar .guest-field .mat-mdc-text-field-wrapper {
+  background-color: var(--field-bg) !important;
+  border: 1px solid var(--field-border) !important;
+}
+
+.almosafer-search-container .search-bar .location-field input[matInput],
+.almosafer-search-container .search-bar .guest-field input[matInput] {
+  color: var(--field-text) !important;
+}
+
+.almosafer-search-container .search-bar .location-field .mat-mdc-floating-label,
+.almosafer-search-container .search-bar .guest-field .mat-mdc-floating-label,
+.almosafer-search-container .search-bar .location-field mat-icon,
+.almosafer-search-container .search-bar .guest-field mat-icon {
+  color: var(--field-label) !important;
+}
+
+/* حالة الهوفر والفوكس */
+.almosafer-search-container .search-bar .location-field .mat-mdc-text-field-wrapper:hover,
+.almosafer-search-container .search-bar .date-range-field .mat-mdc-text-field-wrapper:hover,
+.almosafer-search-container .search-bar .guest-field .mat-mdc-text-field-wrapper:hover,
+.almosafer-search-container .search-bar .location-field .mat-mdc-text-field-wrapper:focus-within,
+.almosafer-search-container .search-bar .date-range-field .mat-mdc-text-field-wrapper:focus-within,
+.almosafer-search-container .search-bar .guest-field .mat-mdc-text-field-wrapper:focus-within {
+  border-color: #3b5369 !important;
+}
+
+.almosafer-search-container .search-bar .search-field > * {
+  height: 100% !important;
+}
+
+/* Material form-field يملأ الارتفاع مع حشو موحد */
+.almosafer-search-container .search-bar .mat-mdc-form-field,
+.almosafer-search-container .search-bar .mat-mdc-text-field-wrapper {
+  height: 100% !important;
+  min-height: var(--field-h) !important;
+}
+
+.almosafer-search-container .search-bar .mat-mdc-form-field-flex {
+  height: 100% !important;
+}
+
+.almosafer-search-container .search-bar .mat-mdc-form-field-infix {
+  height: 100% !important;
+  padding: var(--field-padding) !important; /* حشو موحد */
+  min-height: 24px !important;
+  display: flex;
+  align-items: center;
+}
+
+/* التاريخ المخصص */
+.almosafer-search-container .search-bar .custom-date-input {
+  height: var(--field-h) !important;
+  min-height: var(--field-h) !important;
+}
+
+.almosafer-search-container .search-bar .custom-date-input .date-btn {
+  height: 100% !important;
+  min-height: 0 !important;
+  padding: var(--field-padding) !important; /* حشو موحد */
+}
+
+/* زر البحث */
+.almosafer-search-container .search-bar .search-button-field .search-btn {
+  height: var(--field-h) !important;
+}
+
+/* ضمان الاتساق في جميع الحقول */
+.almosafer-search-container .search-bar {
+  .location-field,
+  .date-range-field,
+  .guest-field {
+    .mat-mdc-form-field {
+      .mat-mdc-text-field-wrapper {
+        min-height: var(--field-h) !important;
+      }
+
+      .mat-mdc-form-field-infix {
+        padding: var(--field-padding) !important;
+        min-height: 24px !important;
+      }
+    }
+  }
+}
+
+/* Location autocomplete styles */
+.location-field {
+  .mat-mdc-autocomplete-panel {
+    max-height: 420px;
+    overflow: auto;
+  }
+
+  .opt-icn {
+    margin-inline-end: 8px;
+    font-size: 18px;
+  }
+}
+
+.location-field .mat-mdc-optgroup-label { display: none; }
+
+// Inline Calendar Container - FINAL FIX: Now positioned exactly like guest popup
+.inline-calendar-container {
+  position: absolute !important; // Force absolute positioning relative to date-range-field
+  top: calc(100% + 8px) !important; // Directly below the date field
+  left: 0 !important; // Align with left edge
+  right: 0 !important; // Extend to right edge
+  z-index: 1100 !important; // High z-index to appear above other content
+  width: auto !important; // Allow natural width
+  max-width: none !important; // Remove width constraints
+  max-height: none !important; // Remove height constraints
+  overflow: visible !important; // Ensure no clipping
+  pointer-events: auto !important; // Ensure calendar is interactive
+  transform: none !important; // Remove any transforms that might be applied by JS
+
+  .inline-calendar-wrapper {
+    position: relative !important;
+    width: auto !important; // Allow natural width
+    max-width: none !important; // Remove width constraints
+    overflow: visible !important; // Ensure no clipping
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15) !important; // Add shadow for popup effect
+    border-radius: 16px !important; // Rounded corners
+    background: white !important; // Ensure white background
+    transform: none !important; // Remove any transforms
+    top: auto !important; // Remove any top positioning
+    left: auto !important; // Remove any left positioning
+  }
+
+  // RTL support - like guest popup
+  :host-context([dir="rtl"]) & {
+    left: 0; // Keep aligned with field
+    right: 0; // Keep extending to right
+
+    .inline-calendar-wrapper {
+      direction: rtl;
+    }
+  }
+
+  // LTR support - like guest popup
+  :host-context([dir="ltr"]) & {
+    left: 0; // Keep aligned with field
+    right: 0; // Keep extending to right
+
+    .inline-calendar-wrapper {
+      direction: ltr;
+    }
+  }
+
+  // Mobile responsive - adjust for smaller screens
+  @media (max-width: 768px) {
+    left: 50%; // Keep centered on mobile
+    transform: translateX(-50%); // Keep center alignment
+    max-width: 95vw; // Limit width on very small screens
+
+    .inline-calendar-wrapper {
+      max-width: 95vw; // Ensure it fits on mobile
+    }
+  }
+}
+
+// Dark theme support for inline calendar container - Same styling as guest popup
+:host-context(.dark-theme) {
+  .inline-calendar-container {
+    // Ensure proper layering in dark theme
+    z-index: 1100;
+
+    .inline-calendar-wrapper {
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4); // Darker shadow for dark theme
+      background: var(--mat-sys-surface-container, #2c2c2c); // Dark background
+    }
+  }
+}
+
+// Snackbar styles for messages
+::ng-deep {
+  .success-snackbar {
+    background: #4caf50 !important;
+    color: white !important;
+    font-weight: 500 !important;
+    font-family: 'Noto Kufi Arabic', 'Google Sans', sans-serif !important;
+  }
+
+  .info-snackbar {
+    background: #2196f3 !important;
+    color: white !important;
+    font-weight: 500 !important;
+    font-family: 'Noto Kufi Arabic', 'Google Sans', sans-serif !important;
+  }
+
+  .error-snackbar {
+    background: #f44336 !important;
+    color: white !important;
+    font-weight: 500 !important;
+    font-family: 'Noto Kufi Arabic', 'Google Sans', sans-serif !important;
+  }
+}
