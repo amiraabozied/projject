@@ -6,31 +6,32 @@ import { MainComponent } from './layouts/main/main.component';
 
 export const routes: Routes = [
   {
-    path: 'home',
-    component: MainComponent,
-    children: [
-      {
-        path: '',
-        pathMatch: 'full',
-        redirectTo: 'home'
-      },
-      // {
-      //   path: 'home',
-      //   component: Home,
-      // },
-    
-     
-    ]
-  },
-  {
     path: '',
     pathMatch: 'full',
     canActivate: [LanguageRedirectGuard],
-    component: BlankComponent
+    component: BlankComponent,
   },
   {
     path: ':lang',
     children: [
+      // Main Layout
+      {
+        path: '',
+        component: MainComponent,
+        children: [
+          {
+            path: '',
+            redirectTo: 'home',
+            pathMatch: 'full',
+          },
+          {
+            path: 'home',
+            loadComponent: () =>
+              import('./pages/home/home.component').then((m) => m.HomeComponent),
+          },
+        ],
+      },
+      // Full Layout
       {
         path: '',
         component: FullComponent,
@@ -107,6 +108,7 @@ export const routes: Routes = [
           },
         ],
       },
+      // Blank Layout
       {
         path: '',
         component: BlankComponent,
@@ -127,12 +129,14 @@ export const routes: Routes = [
           },
         ],
       },
+      // Fallback inside :lang
       {
         path: '**',
         redirectTo: 'authentication/error',
       },
     ],
   },
+  // Global fallback
   {
     path: '**',
     redirectTo: '',

@@ -2,3 +2,29 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+:host-context([dir="rtl"]) {
+  .navbar {
+    direction: rtl;
+
+    .navbar-nav {
+      margin-left: 0 !important;
+      margin-right: auto !important;
+    }
+
+    .nav-item {
+      margin-left: 0.5rem;
+      margin-right: 0.5rem;
+    }
+  }
+}
+
+:host-context([dir="ltr"]) {
+  .navbar {
+    direction: ltr;
+
+    .navbar-nav {
+      margin-right: 0 !important;
+      margin-left: auto !important;
+    }
+  }
+}
