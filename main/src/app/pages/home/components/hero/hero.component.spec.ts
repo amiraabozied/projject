@@ -1,23 +1,59 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { CommonModule } from '@angular/common';
+import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 
-import { HeroComponent } from './hero.component';
+@Component({
+  selector: 'app-hero',
+  standalone: true,
+  imports: [FormsModule, CommonModule],
+  templateUrl: './hero.component.html',
+  styleUrls: ['./hero.component.scss']
+})
+export class HeroComponent {
+  rooms: any[] = [
+    { adults: 2, children: 0, childAges: [], bedType: '' }
+  ];
 
-describe('HeroComponent', () => {
-  let component: HeroComponent;
-  let fixture: ComponentFixture<HeroComponent>;
+  showRoomFilter = false; // 👈 علشان تتحكم في الظهور
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [HeroComponent]
-    })
-    .compileComponents();
+  toggleRoomFilter() {
+    this.showRoomFilter = !this.showRoomFilter;
+  }
 
-    fixture = TestBed.createComponent(HeroComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+  addRoom() {
+    this.rooms.push({ adults: 1, children: 0, childAges: [], bedType: '' });
+  }
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
+  removeRoom(index: number) {
+    if (this.rooms.length > 1) {
+      this.rooms.splice(index, 1);
+    }
+  }
+
+  changeValue(room: any, field: 'adults' | 'children', delta: number) {
+    if (room[field] + delta >= 0) {
+      room[field] += delta;
+
+      if (field === 'children') {
+        // sync child ages
+        if (room.children > room.childAges.length) {
+          room.childAges.push(0);
+        } else {
+          room.childAges.splice(room.children);
+        }
+      }
+    }
+  }
+
+  get summary(): string {
+    return this.rooms.map((room, i) => {
+      return `Room ${i + 1}: ${room.adults} Adults, ${room.children} Children` +
+             (room.bedType ? `, Bed: ${room.bedType}` : '');
+    }).join(' | ');
+  }
+
+  apply() {
+    console.log(this.rooms);
+    this.showRoomFilter = false; // يقفل الفلتر بعد التطبيق
+  }
+}

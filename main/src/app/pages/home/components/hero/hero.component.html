@@ -6,34 +6,105 @@
             <h4>Enjoy The Finest Homes</h4>
             <p>From as low as $10 per day with limited time offer discounts</p>
 
-            <div class="search-bar ">
-                <div class="form-group">
-                    <label for="keyword">Keyword</label>
-                    <input type="text" id="keyword" placeholder="Enter Keyword" />
-                </div>
+<div class="search-bar">
 
-                <div class="form-group">
-                    <label for="type">Type</label>
-                    <select id="type">
-                        <option>All Type</option>
-                        <option>House</option>
-                        <option>Apartment</option>
-                        <option>Villa</option>
-                    </select>
-                </div>
+  <!-- Type -->
+  <div class="form-group">
+    <label>Type</label>
+    <select>
+      <option>All Type</option>
+      <option>House</option>
+      <option>Apartment</option>
+      <option>Villa</option>
+    </select>
+  </div>
 
-                <div class="form-group">
-                    <label for="dateFrom">Date From</label>
-                    <input type="date" id="dateFrom" />
-                </div>
+  <!-- Date From -->
+<mat-form-field class="example-form-field">
+  <mat-label>Second campaign</mat-label>
+  <mat-date-range-input
+    [formGroup]="campaignTwo"
+    [rangePicker]="campaignTwoPicker"
+    [comparisonStart]="campaignOne.value.start"
+    [comparisonEnd]="campaignOne.value.end">
+    <input matStartDate placeholder="Start date" formControlName="start">
+    <input matEndDate placeholder="End date" formControlName="end">
+  </mat-date-range-input>
+  <mat-datepicker-toggle matIconSuffix [for]="campaignTwoPicker"></mat-datepicker-toggle>
+  <mat-date-range-picker #campaignTwoPicker></mat-date-range-picker>
+</mat-form-field>
+  <!-- Guests & Rooms Trigger -->
+  <div class="form-group">
 
-                <div class="form-group">
-                    <label for="dateTo">Date To</label>
-                    <input type="date" id="dateTo" />
-                </div>
 
-                <button class="search-btn">Search</button>
-            </div>
+    <!-- Dropdown -->
+<div class="form-group room-filter-wrapper">
+  <label>Guests & Rooms</label>
+  <button class="filter-btn" (click)="toggleRoomFilter()">
+    {{ summary }}
+  </button>
+
+  <!-- Dropdown -->
+  <div class="room-filter" *ngIf="showRoomFilter">
+    <div *ngFor="let room of rooms; let i = index" class="room-box">
+      <div class="room-header">
+        <span>Room {{ i + 1 }}</span>
+        <button class="delete-btn" (click)="removeRoom(i)" *ngIf="rooms.length > 1">✕</button>
+      </div>
+
+      <!-- Adults -->
+      <div class="counter">
+        <label>Adults <small>(12+)</small></label>
+        <button (click)="changeValue(room, 'adults', -1)">−</button>
+        <span>{{ room.adults }}</span>
+        <button (click)="changeValue(room, 'adults', 1)">+</button>
+      </div>
+
+      <!-- Children -->
+      <div class="counter">
+        <label>Children <small>(0-11)</small></label>
+        <button (click)="changeValue(room, 'children', -1)">−</button>
+        <span>{{ room.children }}</span>
+        <button (click)="changeValue(room, 'children', 1)">+</button>
+      </div>
+
+      <!-- Child ages -->
+      <div class="child-ages" *ngIf="room.children > 0">
+        <label *ngFor="let age of room.childAges; let j = index">
+          Child {{ j + 1 }} Age
+          <select [(ngModel)]="room.childAges[j]">
+            <option *ngFor="let a of [].constructor(12); let age = index" [value]="age">{{ age }}</option>
+          </select>
+        </label>
+      </div>
+
+      <!-- Bed type (if adults > 1) -->
+      <div class="bed-type" *ngIf="room.adults > 1">
+        <label>Bed Type:</label>
+        <label>
+          <input type="radio" [(ngModel)]="room.bedType" value="Single" />
+          Single
+        </label>
+        <label>
+          <input type="radio" [(ngModel)]="room.bedType" value="Double" />
+          Double
+        </label>
+      </div>
+    </div>
+
+    <!-- Add Room -->
+    <button class="add-room" (click)="addRoom()">+ Add Another Room</button>
+
+    <!-- Apply -->
+    <button class="apply-btn" (click)="apply()">Apply</button>
+  </div>
+</div>
+
+  </div>
+
+  <!-- Search button -->
+  <button class="search-btn">Search</button>
+</div>
 
         </div>
 
